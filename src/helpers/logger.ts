@@ -43,27 +43,34 @@ function formatLogEntry(level: string, message: string, context?: LogContext): s
   return `[${entry.timestamp}] ${level.toUpperCase()}: ${message}${contextStr}`
 }
 
+/**
+ * Write log to stderr (MCP uses stdout for JSON-RPC protocol)
+ */
+function writeToStderr(entry: string): void {
+  process.stderr.write(entry + "\n")
+}
+
 export const logger = {
   debug: (message: string, context?: LogContext) => {
     if (["debug"].includes(config.logging.level)) {
-      console.debug(formatLogEntry("debug", message, context))
+      writeToStderr(formatLogEntry("debug", message, context))
     }
   },
 
   info: (message: string, context?: LogContext) => {
     if (["debug", "info"].includes(config.logging.level)) {
-      console.info(formatLogEntry("info", message, context))
+      writeToStderr(formatLogEntry("info", message, context))
     }
   },
 
   warn: (message: string, context?: LogContext) => {
     if (["debug", "info", "warn"].includes(config.logging.level)) {
-      console.warn(formatLogEntry("warn", message, context))
+      writeToStderr(formatLogEntry("warn", message, context))
     }
   },
 
   error: (message: string, context?: LogContext) => {
-    console.error(formatLogEntry("error", message, context))
+    writeToStderr(formatLogEntry("error", message, context))
   },
 
   child(defaultContext: LogContext) {

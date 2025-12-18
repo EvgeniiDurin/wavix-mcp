@@ -49,6 +49,26 @@ export class WavixClient {
     return config.wavix.hasApiKey
   }
 
+  /**
+   * Get current API base URL
+   */
+  getBaseUrl(): string {
+    return this.baseUrl
+  }
+
+  /**
+   * Set API base URL dynamically
+   */
+  setBaseUrl(url: string): void {
+    try {
+      new URL(url)
+      this.baseUrl = url
+      logger.info("API URL updated", { baseUrl: url })
+    } catch (error) {
+      throw new WavixApiError(`Invalid URL: ${url}`, 400)
+    }
+  }
+
   async request<T>(
     method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH",
     path: string,

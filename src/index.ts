@@ -8,7 +8,7 @@
 // Register module aliases FIRST (before any other imports)
 import "./aliases.js"
 
-import "dotenv/config"
+// Note: dotenv is loaded in config/index.ts
 import { config } from "./config/index.js"
 import { logger } from "./helpers/logger.js"
 import { WavixMcpServer } from "./server.js"

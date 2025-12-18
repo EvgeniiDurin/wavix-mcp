@@ -1,37 +1,27 @@
 /**
  * Tool Handlers Tests
+ *
+ * Tests for grouped tool handlers with action parameter
+ * Uses real generated tools for integration testing
  */
 
 import { describe, expect, it, beforeEach, jest } from "@jest/globals"
-import { handleToolCall, type ToolMeta } from "./index.js"
+import { handleToolCall } from "./index.js"
 import { WavixClient, WavixApiError } from "../../api/client.js"
-
-// Mock logger
-jest.mock("../../helpers/logger.js", () => ({
-  logger: {
-    child: () => ({
-      info: jest.fn(),
-      error: jest.fn(),
-      debug: jest.fn(),
-      warn: jest.fn()
-    })
-  }
-}))
-
-// Mock masking helper
-jest.mock("../../helpers/masking.js", () => ({
-  maskSensitiveData: jest.fn(data => data)
-}))
+import { setupConsoleMocks } from "../../test-utils.js"
 
 describe("Tool Handlers", () => {
   let mockClient: jest.Mocked<WavixClient>
-  let requestMock: jest.Mock
+
+  // Suppress console output during tests
+  setupConsoleMocks()
 
   beforeEach(() => {
-    requestMock = jest.fn()
     mockClient = {
-      request: requestMock,
+      request: jest.fn(),
       isEnabled: true,
+      getBaseUrl: jest.fn().mockReturnValue("https://api.wavix.com/v1"),
+      setBaseUrl: jest.fn(),
       get: jest.fn(),
       post: jest.fn(),
       put: jest.fn(),
@@ -40,285 +30,111 @@ describe("Tool Handlers", () => {
   })
 
   describe("handleToolCall", () => {
-    describe("GET requests", () => {
-      it("should handle GET request without parameters", async () => {
-        const meta: ToolMeta = {
-          path: "/v2/profile",
-          method: "GET",
-          operationId: "profile_get"
-        }
+    describe("Action validation", () => {
+      it("should return error when action is missing", async () => {
+        const result = await handleToolCall(mockClient, "profile", {})
 
-        const mockResponse = { id: 123, name: "Test User" }
-        mockClient.request.mockResolvedValue(mockResponse)
-
-        const result = await handleToolCall(mockClient, "profile_get", meta, {})
-
-        expect(mockClient.request).toHaveBeenCalledWith("GET", "/v2/profile", undefined)
-        expect(result.content).toEqual([
-          {
-            type: "text",
-            text: JSON.stringify(mockResponse, null, 2)
-          }
-        ])
-      })
-
-      it("should handle GET request with query parameters", async () => {
-        const meta: ToolMeta = {
-          path: "/v2/numbers",
-          method: "GET",
-          operationId: "numbers_list"
-        }
-
-        const args = {
-          limit: 10,
-          offset: 0,
-          search: "test"
-        }
-
-        mockClient.request.mockResolvedValue({ data: [] })
-
-        await handleToolCall(mockClient, "numbers_list", meta, args)
-
-        expect(mockClient.request).toHaveBeenCalledWith("GET", "/v2/numbers?limit=10&offset=0&search=test", undefined)
-      })
-
-      it("should handle array parameters in query string", async () => {
-        const meta: ToolMeta = {
-          path: "/v2/numbers",
-          method: "GET",
-          operationId: "numbers_list"
-        }
-
-        const args = {
-          ids: [1, 2, 3]
-        }
-
-        mockClient.request.mockResolvedValue({ data: [] })
-
-        await handleToolCall(mockClient, "numbers_list", meta, args)
-
-        expect(mockClient.request).toHaveBeenCalledWith(
-          "GET",
-          "/v2/numbers?ids%5B%5D=1&ids%5B%5D=2&ids%5B%5D=3",
-          undefined
-        )
-      })
-
-      it("should skip undefined and null query parameters", async () => {
-        const meta: ToolMeta = {
-          path: "/v2/numbers",
-          method: "GET",
-          operationId: "numbers_list"
-        }
-
-        const args = {
-          limit: 10,
-          offset: undefined,
-          search: null
-        }
-
-        mockClient.request.mockResolvedValue({ data: [] })
-
-        await handleToolCall(mockClient, "numbers_list", meta, args)
-
-        expect(mockClient.request).toHaveBeenCalledWith("GET", "/v2/numbers?limit=10", undefined)
-      })
-    })
-
-    describe("POST requests", () => {
-      it("should handle POST request with body", async () => {
-        const meta: ToolMeta = {
-          path: "/v2/sms/send",
-          method: "POST",
-          operationId: "sms_send"
-        }
-
-        const args = {
-          to: "+1234567890",
-          text: "Test message",
-          from: "+0987654321"
-        }
-
-        const mockResponse = { success: true, message_id: "abc123" }
-        mockClient.request.mockResolvedValue(mockResponse)
-
-        const result = await handleToolCall(mockClient, "sms_send", meta, args)
-
-        expect(mockClient.request).toHaveBeenCalledWith("POST", "/v2/sms/send", args)
-        expect(result.content).toEqual([
-          {
-            type: "text",
-            text: JSON.stringify(mockResponse, null, 2)
-          }
-        ])
-      })
-
-      it("should handle POST with empty body", async () => {
-        const meta: ToolMeta = {
-          path: "/v2/action",
-          method: "POST",
-          operationId: "action_trigger"
-        }
-
-        mockClient.request.mockResolvedValue({ success: true })
-
-        await handleToolCall(mockClient, "action_trigger", meta, {})
-
-        expect(mockClient.request).toHaveBeenCalledWith("POST", "/v2/action", undefined)
-      })
-    })
-
-    describe("Path parameters", () => {
-      it("should replace single path parameter", async () => {
-        const meta: ToolMeta = {
-          path: "/v2/numbers/{id}",
-          method: "GET",
-          operationId: "number_get"
-        }
-
-        const args = { id: 12345 }
-
-        mockClient.request.mockResolvedValue({ id: 12345 })
-
-        await handleToolCall(mockClient, "number_get", meta, args)
-
-        expect(mockClient.request).toHaveBeenCalledWith("GET", "/v2/numbers/12345", undefined)
-      })
-
-      it("should replace multiple path parameters", async () => {
-        const meta: ToolMeta = {
-          path: "/v2/accounts/{account_id}/users/{user_id}",
-          method: "GET",
-          operationId: "user_get"
-        }
-
-        const args = {
-          account_id: "acc123",
-          user_id: "usr456"
-        }
-
-        mockClient.request.mockResolvedValue({})
-
-        await handleToolCall(mockClient, "user_get", meta, args)
-
-        expect(mockClient.request).toHaveBeenCalledWith("GET", "/v2/accounts/acc123/users/usr456", undefined)
-      })
-
-      it("should handle path params with query params", async () => {
-        const meta: ToolMeta = {
-          path: "/v2/numbers/{id}",
-          method: "GET",
-          operationId: "number_get"
-        }
-
-        const args = {
-          id: 12345,
-          include: "details"
-        }
-
-        mockClient.request.mockResolvedValue({})
-
-        await handleToolCall(mockClient, "number_get", meta, args)
-
-        expect(mockClient.request).toHaveBeenCalledWith("GET", "/v2/numbers/12345?include=details", undefined)
-      })
-    })
-
-    describe("PUT and PATCH requests", () => {
-      it("should handle PUT request with body", async () => {
-        const meta: ToolMeta = {
-          path: "/v2/numbers/{id}",
-          method: "PUT",
-          operationId: "number_update"
-        }
-
-        const args = {
-          id: 12345,
-          name: "Updated Name",
-          active: true
-        }
-
-        mockClient.request.mockResolvedValue({ success: true })
-
-        await handleToolCall(mockClient, "number_update", meta, args)
-
-        expect(mockClient.request).toHaveBeenCalledWith("PUT", "/v2/numbers/12345", {
-          name: "Updated Name",
-          active: true
+        expect(result.isError).toBe(true)
+        expect(result.content[0]).toEqual({
+          type: "text",
+          text: 'Error: "action" parameter is required'
         })
       })
 
-      it("should handle PATCH request", async () => {
-        const meta: ToolMeta = {
-          path: "/v2/settings",
-          method: "PATCH",
-          operationId: "settings_update"
-        }
+      it("should return error for unknown tool", async () => {
+        const result = await handleToolCall(mockClient, "unknown_tool", { action: "list" })
 
-        const args = { timezone: "UTC" }
+        expect(result.isError).toBe(true)
+        expect(result.content[0]).toEqual({
+          type: "text",
+          text: 'Error: Unknown tool "unknown_tool"'
+        })
+      })
 
-        mockClient.request.mockResolvedValue({ success: true })
+      it("should return error for unknown action", async () => {
+        const result = await handleToolCall(mockClient, "profile", { action: "unknown" })
 
-        await handleToolCall(mockClient, "settings_update", meta, args)
-
-        expect(mockClient.request).toHaveBeenCalledWith("PATCH", "/v2/settings", args)
+        expect(result.isError).toBe(true)
+        expect((result.content[0] as { text: string }).text).toContain('Unknown action "unknown"')
+        expect((result.content[0] as { text: string }).text).toContain("Available actions")
       })
     })
 
-    describe("DELETE requests", () => {
-      it("should handle DELETE request", async () => {
-        const meta: ToolMeta = {
-          path: "/v2/numbers/{id}",
-          method: "DELETE",
-          operationId: "number_delete"
-        }
+    describe("Config tool", () => {
+      it("should get API URL", async () => {
+        const result = await handleToolCall(mockClient, "config", { action: "get_api_url" })
 
-        const args = { id: 12345 }
+        expect(result.isError).toBeUndefined()
+        expect(mockClient.getBaseUrl).toHaveBeenCalled()
 
-        mockClient.request.mockResolvedValue({ success: true })
-
-        await handleToolCall(mockClient, "number_delete", meta, args)
-
-        expect(mockClient.request).toHaveBeenCalledWith("DELETE", "/v2/numbers/12345", undefined)
+        const content = JSON.parse((result.content[0] as { text: string }).text)
+        expect(content.api_url).toBe("https://api.wavix.com/v1")
       })
 
-      it("should handle DELETE with query parameters", async () => {
-        const meta: ToolMeta = {
-          path: "/v2/numbers",
-          method: "DELETE",
-          operationId: "numbers_bulk_delete"
-        }
+      it("should set API URL", async () => {
+        const result = await handleToolCall(mockClient, "config", {
+          action: "set_api_url",
+          url: "https://api.qa1.wavix.com/v1"
+        })
 
-        const args = { ids: [1, 2, 3] }
+        expect(result.isError).toBeUndefined()
+        expect(mockClient.setBaseUrl).toHaveBeenCalledWith("https://api.qa1.wavix.com/v1")
 
-        mockClient.request.mockResolvedValue({ deleted: 3 })
+        const content = JSON.parse((result.content[0] as { text: string }).text)
+        expect(content.success).toBe(true)
+      })
 
-        await handleToolCall(mockClient, "numbers_bulk_delete", meta, args)
+      it("should return error when URL is missing for set_api_url", async () => {
+        const result = await handleToolCall(mockClient, "config", { action: "set_api_url" })
+
+        expect(result.isError).toBe(true)
+        expect((result.content[0] as { text: string }).text).toContain("url")
+      })
+    })
+
+    describe("API tool calls", () => {
+      it("should call API for GET request", async () => {
+        const mockResponse = { first_name: "Test", last_name: "User" }
+        mockClient.request.mockResolvedValue(mockResponse)
+
+        const result = await handleToolCall(mockClient, "profile", { action: "get" })
+
+        expect(mockClient.request).toHaveBeenCalledWith("GET", expect.stringContaining("/profile"), undefined)
+        expect(result.content).toEqual([
+          {
+            type: "text",
+            text: JSON.stringify(mockResponse, null, 2)
+          }
+        ])
+      })
+
+      it("should call API for PUT request with body", async () => {
+        const mockResponse = { success: true }
+        mockClient.request.mockResolvedValue(mockResponse)
+
+        const result = await handleToolCall(mockClient, "profile", {
+          action: "update",
+          first_name: "John",
+          last_name: "Doe"
+        })
 
         expect(mockClient.request).toHaveBeenCalledWith(
-          "DELETE",
-          "/v2/numbers?ids%5B%5D=1&ids%5B%5D=2&ids%5B%5D=3",
-          undefined
+          "PUT",
+          expect.stringContaining("/profile"),
+          expect.objectContaining({ first_name: "John", last_name: "Doe" })
         )
+        expect(result.isError).toBeUndefined()
       })
-    })
 
-    describe("Error handling", () => {
-      it("should handle WavixApiError", async () => {
-        const meta: ToolMeta = {
-          path: "/v2/test",
-          method: "GET",
-          operationId: "test"
-        }
-
+      it("should handle API errors", async () => {
         const apiError = new WavixApiError("Invalid request", 400, "INVALID_REQUEST", {
-          field: "email",
-          message: "Email is required"
+          field: "name",
+          message: "Name is required"
         })
 
         mockClient.request.mockRejectedValue(apiError)
 
-        const result = await handleToolCall(mockClient, "test", meta, {})
+        const result = await handleToolCall(mockClient, "profile", { action: "get" })
 
         expect(result.isError).toBe(true)
         expect(result.content[0]?.type).toBe("text")
@@ -327,88 +143,53 @@ describe("Tool Handlers", () => {
         expect(errorContent.error).toBe(true)
         expect(errorContent.message).toBe("Invalid request")
         expect(errorContent.statusCode).toBe(400)
-        expect(errorContent.code).toBe("INVALID_REQUEST")
       })
 
-      it("should handle generic Error", async () => {
-        const meta: ToolMeta = {
-          path: "/v2/test",
-          method: "GET",
-          operationId: "test"
-        }
-
+      it("should handle generic errors", async () => {
         mockClient.request.mockRejectedValue(new Error("Network error"))
 
-        const result = await handleToolCall(mockClient, "test", meta, {})
+        const result = await handleToolCall(mockClient, "profile", { action: "get" })
 
         expect(result.isError).toBe(true)
         expect(result.content).toEqual([{ type: "text", text: "Error: Network error" }])
       })
+    })
 
-      it("should handle unknown error", async () => {
-        const meta: ToolMeta = {
-          path: "/v2/test",
-          method: "GET",
-          operationId: "test"
-        }
+    describe("Path parameters", () => {
+      it("should replace path parameters in URL", async () => {
+        mockClient.request.mockResolvedValue({ id: 123 })
 
-        mockClient.request.mockRejectedValue("Unknown error")
+        await handleToolCall(mockClient, "sip_trunks", { action: "get", id: 123 })
 
-        const result = await handleToolCall(mockClient, "test", meta, {})
-
-        expect(result.isError).toBe(true)
-        expect(result.content).toEqual([{ type: "text", text: "Error: Unknown error" }])
+        expect(mockClient.request).toHaveBeenCalledWith("GET", expect.stringContaining("/trunks/123"), undefined)
       })
     })
 
-    describe("Edge cases", () => {
-      it("should handle undefined args", async () => {
-        const meta: ToolMeta = {
-          path: "/v2/profile",
-          method: "GET",
-          operationId: "profile_get"
-        }
+    describe("Query parameters", () => {
+      it("should add query parameters for GET requests", async () => {
+        mockClient.request.mockResolvedValue({ items: [] })
 
-        mockClient.request.mockResolvedValue({})
+        await handleToolCall(mockClient, "sip_trunks", { action: "list", page: 1, per_page: 10 })
 
-        await handleToolCall(mockClient, "profile_get", meta, undefined)
-
-        expect(mockClient.request).toHaveBeenCalledWith("GET", "/v2/profile", undefined)
+        const callPath = mockClient.request.mock.calls[0][1]
+        expect(callPath).toContain("page=1")
+        expect(callPath).toContain("per_page=10")
       })
 
-      it("should handle path with existing query string", async () => {
-        const meta: ToolMeta = {
-          path: "/v2/search?type=sms",
-          method: "GET",
-          operationId: "search"
-        }
+      it("should skip undefined and null parameters", async () => {
+        mockClient.request.mockResolvedValue({ items: [] })
 
-        const args = { query: "test" }
+        await handleToolCall(mockClient, "sip_trunks", {
+          action: "list",
+          page: 1,
+          per_page: undefined,
+          search: null
+        })
 
-        mockClient.request.mockResolvedValue({})
-
-        await handleToolCall(mockClient, "search", meta, args)
-
-        expect(mockClient.request).toHaveBeenCalledWith("GET", "/v2/search?type=sms&query=test", undefined)
-      })
-
-      it("should convert parameter values to strings", async () => {
-        const meta: ToolMeta = {
-          path: "/v2/items",
-          method: "GET",
-          operationId: "items_list"
-        }
-
-        const args = {
-          count: 5,
-          active: true
-        }
-
-        mockClient.request.mockResolvedValue({})
-
-        await handleToolCall(mockClient, "items_list", meta, args)
-
-        expect(mockClient.request).toHaveBeenCalledWith("GET", "/v2/items?count=5&active=true", undefined)
+        const callPath = mockClient.request.mock.calls[0][1]
+        expect(callPath).toContain("page=1")
+        expect(callPath).not.toContain("per_page")
+        expect(callPath).not.toContain("search")
       })
     })
   })

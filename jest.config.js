@@ -40,7 +40,8 @@ export default {
     "!src/**/*.test.ts",
     "!src/**/*.spec.ts",
     "!src/api/types.ts",
-    "!src/tools/generated/**"
+    "!src/tools/generated/**",
+    "!src/test-setup.ts"
   ],
   coverageThreshold: {
     global: {
@@ -53,5 +54,6 @@ export default {
   testTimeout: 60000,
   maxWorkers: "100%",
   verbose: true,
-  forceExit: true
+  forceExit: true,
+  setupFilesAfterEnv: ["<rootDir>/src/test-setup.ts"]
 }

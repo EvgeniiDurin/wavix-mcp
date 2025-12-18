@@ -29,12 +29,57 @@ Or use with npx (no installation needed):
 npx @wavix/mcp-server
 ```
 
-### 2. Configure Claude Desktop
+### 2. Configure Your Client
+
+Choose your MCP client:
+
+#### Claude Desktop
 
 Add to your Claude Desktop config:
 
 **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`  
 **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "wavix": {
+      "command": "npx",
+      "args": ["@wavix/mcp-server"],
+      "env": {
+        "WAVIX_API_KEY": "wvx_live_your_api_key_here"
+      }
+    }
+  }
+}
+```
+
+#### Claude Code (CLI)
+
+Add MCP server via CLI command:
+
+```bash
+# With API key (Full Mode)
+claude mcp add wavix -s user -e WAVIX_API_KEY=wvx_live_your_api_key_here -- npx @wavix/mcp-server
+
+# Without API key (Documentation Mode)
+claude mcp add wavix -s user -- npx @wavix/mcp-server
+```
+
+Verify installation:
+```bash
+claude mcp list
+```
+
+> **Scope options:** `-s user` (all projects) or `-s project` (current project only)
+
+#### Cursor IDE
+
+Create or edit Cursor MCP config file:
+
+**macOS:** `~/Library/Application Support/Cursor/User/globalStorage/rooveterinaryinc.roo-cline/settings/cline_mcp_settings.json`
+**Windows:** `%APPDATA%\Cursor\User\globalStorage\rooveterinaryinc.roo-cline\settings\cline_mcp_settings.json`
+**Linux:** `~/.config/Cursor/User/globalStorage/rooveterinaryinc.roo-cline/settings/cline_mcp_settings.json`
 
 ```json
 {
@@ -92,6 +137,29 @@ With `WAVIX_API_KEY` set, you get:
 
 ## Installation
 
+### Claude Code (CLI) - Recommended
+
+The simplest way to add Wavix MCP server:
+
+```bash
+# With API key (Full Mode - all tools enabled)
+claude mcp add wavix -s user -e WAVIX_API_KEY=wvx_live_your_api_key_here -- npx @wavix/mcp-server
+
+# Without API key (Documentation Mode - docs and prompts only)
+claude mcp add wavix -s user -- npx @wavix/mcp-server
+```
+
+**Scope options:**
+- `-s user` - Available in all projects (stored in `~/.claude.json`)
+- `-s project` - Current project only (stored in `.mcp.json`)
+
+**Verify and manage:**
+```bash
+claude mcp list              # List all MCP servers
+claude mcp get wavix         # Get server details
+claude mcp remove wavix      # Remove server
+```
+
 ### Claude Desktop
 
 Add to your Claude Desktop config (`~/Library/Application Support/Claude/claude_desktop_config.json`):
@@ -114,14 +182,18 @@ Add to your Claude Desktop config (`~/Library/Application Support/Claude/claude_
 
 ### Cursor IDE
 
-Add to Cursor settings (`Cmd/Ctrl + ,` → Open User Settings JSON):
+Create or edit Cursor MCP config file:
+
+**macOS:** `~/Library/Application Support/Cursor/User/globalStorage/rooveterinaryinc.roo-cline/settings/cline_mcp_settings.json`  
+**Windows:** `%APPDATA%\Cursor\User\globalStorage\rooveterinaryinc.roo-cline\settings\cline_mcp_settings.json`  
+**Linux:** `~/.config/Cursor/User/globalStorage/rooveterinaryinc.roo-cline/settings/cline_mcp_settings.json`
 
 ```json
 {
-  "mcp.servers": {
+  "mcpServers": {
     "wavix": {
-      "command": "node",
-      "args": ["/path/to/@wavix/mcp-server/build/index.js"],
+      "command": "npx",
+      "args": ["@wavix/mcp-server"],
       "env": {
         "WAVIX_API_KEY": "wvx_live_your_api_key_here"
       }
@@ -129,6 +201,8 @@ Add to Cursor settings (`Cmd/Ctrl + ,` → Open User Settings JSON):
   }
 }
 ```
+
+> **Note:** Cursor uses Cline extension for MCP. Config file location may vary by Cursor version. Restart Cursor after editing.
 
 ### Programmatic Usage
 
@@ -393,6 +467,22 @@ src/
 ```
 
 ## Troubleshooting
+
+### MCP server not detected in Claude Code
+
+- **Check configuration location**: Claude Code reads MCP config from `~/.claude.json` (user scope) or `.mcp.json` (project scope), NOT from `~/.claude/settings.json`
+
+- **Verify with CLI**:
+  ```bash
+  claude mcp list
+  ```
+
+- **Re-add if missing**:
+  ```bash
+  claude mcp add wavix -s user -- npx @wavix/mcp-server
+  ```
+
+- **Restart Claude Code**: After adding MCP server, restart the session
 
 ### Server not starting
 

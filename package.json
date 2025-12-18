@@ -14,8 +14,9 @@
   ],
   "scripts": {
     "clean": "rimraf build/*",
-    "build": "gulp build",
-    "build:watch": "gulp watch",
+    "build": "pnpm clean && tsc && pnpm copy:resources",
+    "build:watch": "tsc --watch",
+    "copy:resources": "cp -r src/resources build/",
     "dev": "cross-env NODE_ENV=development nodemon",
     "start": "node build/index.js",
     "test": "cross-env NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js --forceExit --runInBand --ci",

@@ -1,11 +1,13 @@
 /** @type {import('eslint').Linter.Config} */
+const path = require("path")
+
 module.exports = {
   root: true,
   extends: ["@wavix/eslint-config-node"],
   parserOptions: {
     ecmaVersion: 2022,
     sourceType: "module",
-    project: "./tsconfig.eslint.json"
+    project: path.resolve(__dirname, "tsconfig.eslint.json")
   },
   plugins: ["jest"],
   rules: {

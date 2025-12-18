@@ -1,7 +1,7 @@
 /**
  * MCP Tools Registry
  *
- * Registers all generated tools and routes calls to handlers
+ * Registers grouped tools and routes calls to handlers
  */
 
 import { Server } from "@modelcontextprotocol/sdk/server/index.js"
@@ -15,15 +15,14 @@ import { handleToolCall } from "./handlers/index.js"
 export function registerTools(server: Server, client: WavixClient): void {
   const log = logger.child({ module: "tools" })
 
-  // Filter tools based on mode
-  const availableTools = config.wavix.hasApiKey
-    ? generatedTools // Full mode - all tools
-    : generatedTools.filter(t => t.name.startsWith("profile_") || t.name.startsWith("billing_")) // Doc mode - limited
+  // Show all tools regardless of API key presence
+  // Tools that require API access will return a clear error message when called without a key
+  const availableTools = generatedTools
 
   log.info("Registering tools", {
     total: generatedTools.length,
     available: availableTools.length,
-    mode: config.wavix.hasApiKey ? "Full" : "Documentation"
+    mode: config.wavix.hasApiKey ? "Full" : "Documentation (API key not set)"
   })
 
   server.setRequestHandler(ListToolsRequestSchema, () => {
@@ -36,7 +35,7 @@ export function registerTools(server: Server, client: WavixClient): void {
     log.info("Tool called", { name })
 
     // Check if tool exists
-    const meta = toolMeta.get(name)
+    const meta = toolMeta[name]
     if (!meta) {
       log.warn("Tool not found", { name })
       return {
@@ -45,20 +44,24 @@ export function registerTools(server: Server, client: WavixClient): void {
       }
     }
 
-    // Check if API key is available for API tools
+    // Config tool doesn't require API key
+    if (name === "config") {
+      return handleToolCall(client, name, args)
+    }
+
+    // Other tools require API access
     if (!client.isEnabled) {
       return {
         content: [
           {
             type: "text",
-            text: "Error: This tool requires API access. Set WAVIX_API_KEY environment variable to enable Full Mode."
+            text: `Error: Tool "${name}" requires API access.\n\nTo use this tool, set the WAVIX_API_KEY environment variable:\n1. Get your API key from https://app.wavix.com (Settings → API Keys)\n2. Add to your MCP server config: "env": { "WAVIX_API_KEY": "your-api-key" }\n3. Restart Claude Code to apply changes`
           }
         ],
         isError: true
       }
     }
 
-    // Execute the tool
-    return handleToolCall(client, name, meta, args)
+    return handleToolCall(client, name, args)
   })
 }
