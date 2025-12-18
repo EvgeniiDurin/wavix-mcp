@@ -1,0 +1,90 @@
+name: Sync OpenAPI
+
+on:
+  # Trigger from wavix-openapi repository (via webhook)
+  repository_dispatch:
+    types: [openapi-updated]
+
+  # Manual trigger
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Fetch latest OpenAPI spec
+        run: |
+          mkdir -p api
+          curl -sSL -o api/wavix-api.yaml \
+            https://raw.githubusercontent.com/Wavix/wavix-openapi/main/docs/wavix-api.yaml
+
+          echo "OpenAPI spec downloaded:"
+          head -20 api/wavix-api.yaml
+
+      - name: Generate TypeScript types
+        run: |
+          # Generate types using openapi-typescript
+          pnpm generate
+
+          echo "Generated files:"
+          ls -la src/api/
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Changes detected:"
+            git diff --stat
+          fi
+
+      - name: Create Pull Request
+        if: steps.changes.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: sync OpenAPI spec from wavix-openapi"
+          title: "chore: sync OpenAPI spec"
+          body: |
+            ## Automated OpenAPI Sync
+
+            This PR was automatically created by the sync workflow.
+
+            ### Changes
+            - Updated `api/wavix-api.yaml` from [wavix-openapi](https://github.com/Wavix/wavix-openapi)
+            - Regenerated TypeScript types in `src/api/types.ts`
+
+            ### Review Checklist
+            - [ ] Generated types look correct
+            - [ ] No breaking changes in API
+            - [ ] Tests pass
+
+            ---
+            *Triggered by: ${{ github.event_name }}*
+          branch: sync/openapi
+          delete-branch: true
+          labels: |
+            automated
+            dependencies

@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ES2022"],
+    "outDir": "./build",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "isolatedModules": true,
+    "typeRoots": ["./typings/", "./node_modules/@types"],
+    "paths": {
+      "@root/*": ["./*"],
+      "@config/*": ["./config/*"],
+      "@interfaces/*": ["./interfaces/*"],
+      "@helpers/*": ["./helpers/*"],
+      "@tools/*": ["./tools/*"],
+      "@api/*": ["./api/*"],
+      "@resources/*": ["./resources/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "build", "**/*.test.ts", "**/*.spec.ts"]
+}
