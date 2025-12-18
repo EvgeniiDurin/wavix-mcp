@@ -49,6 +49,17 @@ jobs:
           echo "Generated files:"
           ls -la src/api/
 
+      - name: Generate MCP tools
+        run: pnpm generate:tools
+
+      - name: Type check
+        run: pnpm type
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Check for changes
         id: changes
         run: |
@@ -75,6 +86,7 @@ jobs:
             ### Changes
             - Updated `api/wavix-api.yaml` from [wavix-openapi](https://github.com/Wavix/wavix-openapi)
             - Regenerated TypeScript types in `src/api/types.ts`
+            - Regenerated MCP tools
 
             ### Review Checklist
             - [ ] Generated types look correct

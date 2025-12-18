@@ -10,7 +10,8 @@ const __dirname = dirname(__filename)
 
 const paths = {
   src: "src/**/*.ts",
-  dest: "build"
+  dest: "build",
+  resources: "src/resources/**/*.{json,md}"
 }
 
 const swcOptions = {
@@ -55,11 +56,15 @@ export function compile() {
     .pipe(gulp.dest(paths.dest))
 }
 
+export function copyResources() {
+  return gulp.src(paths.resources, { base: "src" }).pipe(gulp.dest(paths.dest))
+}
+
 export function watchFiles() {
   gulp.watch(paths.src, compile)
 }
 
-export const build = gulp.series(clean, compile)
+export const build = gulp.series(clean, gulp.parallel(compile, copyResources))
 export const watch = gulp.series(build, watchFiles)
 
 export default build

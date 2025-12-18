@@ -3,7 +3,7 @@
  */
 
 export interface PaginatedResponse<T> {
-  items: T[]
+  items: Array<T>
   total: number
   page: number
   pageSize: number
@@ -42,6 +42,6 @@ export interface PhoneNumber {
   id: string
   number: string
   country: string
-  capabilities: ("sms" | "voice" | "mms")[]
+  capabilities: Array<"sms" | "voice" | "mms">
   status: "active" | "inactive"
 }

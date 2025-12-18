@@ -1,8 +1,7 @@
 /**
  * Wavix HTTP Client
  *
- * Direct HTTP calls with typed responses (no wavix-sdk)
- * TODO: Enhance by WavixSdkAgent
+ * Direct HTTP calls with typed responses
  */
 
 import { config } from "../config/index.js"
@@ -129,7 +128,7 @@ export class WavixClient {
   }
 
   private sleep(ms: number): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, ms))
+    return new Promise(resolve => setTimeout(resolve, ms))
   }
 
   // Convenience methods - will be typed with generated types

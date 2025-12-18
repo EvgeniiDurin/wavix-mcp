@@ -4,7 +4,8 @@ set -e
 # Sync OpenAPI spec from wavix-openapi repository
 # Usage: ./scripts/sync-openapi.sh
 
-OPENAPI_URL="https://raw.githubusercontent.com/Wavix/wavix-openapi/main/docs/wavix-api.yaml"
+# Use same URL as Mintlify docs (docs.json) for consistency
+OPENAPI_URL="https://wavix.github.io/wavix-openapi/wavix-api.yaml"
 SPEC_FILE="api/wavix-api.yaml"
 TYPES_FILE="src/api/types.ts"
 

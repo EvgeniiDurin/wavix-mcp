@@ -1,0 +1,366 @@
+{
+  "source": "docs.wavix.com",
+  "type": "mintlify",
+  "repo": "Wavix/docs",
+  "syncedAt": "2025-12-18T10:03:54Z",
+  "uriPrefix": "wavix://api",
+  "documents": [
+    {
+      "id": "api-reference-get-your-api-key",
+      "uri": "wavix://api/api-reference/get-your-api-key",
+      "file": "api-reference/get-your-api-key.md",
+      "title": "Get your API key"
+    },
+    {
+      "id": "api-reference-getting-started",
+      "uri": "wavix://api/api-reference/getting-started",
+      "file": "api-reference/getting-started.md",
+      "title": "Getting started"
+    },
+    {
+      "id": "getting-started-create-account",
+      "uri": "wavix://api/getting-started/create-account",
+      "file": "getting-started/create-account.md",
+      "title": "Create a Wavix account"
+    },
+    {
+      "id": "getting-started-ip-allowlisting",
+      "uri": "wavix://api/getting-started/ip-allowlisting",
+      "file": "getting-started/ip-allowlisting.md",
+      "title": "Wavix IP addresses"
+    },
+    {
+      "id": "getting-started-openapi",
+      "uri": "wavix://api/getting-started/openapi",
+      "file": "getting-started/openapi.md",
+      "title": "OpenAPI Specification"
+    },
+    {
+      "id": "getting-started-sdks",
+      "uri": "wavix://api/getting-started/sdks",
+      "file": "getting-started/sdks.md",
+      "title": "SDKs and widgets"
+    },
+    { "id": "index", "uri": "wavix://api/index", "file": "index.md", "title": "'Welcome'" },
+    {
+      "id": "messaging-10dlc-api",
+      "uri": "wavix://api/messaging/10dlc-api",
+      "file": "messaging/10dlc-api.md",
+      "title": "10DLC API"
+    },
+    {
+      "id": "messaging-10dlc",
+      "uri": "wavix://api/messaging/10dlc",
+      "file": "messaging/10dlc.md",
+      "title": "10DLC Brand and Campaign registration"
+    },
+    {
+      "id": "messaging-2fa",
+      "uri": "wavix://api/messaging/2fa",
+      "file": "messaging/2fa.md",
+      "title": "2FA API Overview"
+    },
+    {
+      "id": "messaging-errors-12",
+      "uri": "wavix://api/messaging/errors/12",
+      "file": "messaging/errors/12.md",
+      "title": "MMS can be set to the US and CA phone numbers only"
+    },
+    {
+      "id": "messaging-errors-13",
+      "uri": "wavix://api/messaging/errors/13",
+      "file": "messaging/errors/13.md",
+      "title": "Media file size can be 1MB or less"
+    },
+    {
+      "id": "messaging-errors-14",
+      "uri": "wavix://api/messaging/errors/14",
+      "file": "messaging/errors/14.md",
+      "title": "Unsupported media format"
+    },
+    {
+      "id": "messaging-errors-15",
+      "uri": "wavix://api/messaging/errors/15",
+      "file": "messaging/errors/15.md",
+      "title": "Media file must be publicly accessible"
+    },
+    {
+      "id": "messaging-errors-17",
+      "uri": "wavix://api/messaging/errors/17",
+      "file": "messaging/errors/17.md",
+      "title": "Destination forbidden"
+    },
+    {
+      "id": "messaging-errors-18",
+      "uri": "wavix://api/messaging/errors/18",
+      "file": "messaging/errors/18.md",
+      "title": "Destination is invalid or not mobile phone number"
+    },
+    {
+      "id": "messaging-errors-19",
+      "uri": "wavix://api/messaging/errors/19",
+      "file": "messaging/errors/19.md",
+      "title": "Destination blocked"
+    },
+    {
+      "id": "messaging-errors-21",
+      "uri": "wavix://api/messaging/errors/21",
+      "file": "messaging/errors/21.md",
+      "title": "You can only have up to 5 attachments per MMS message"
+    },
+    {
+      "id": "messaging-errors-22",
+      "uri": "wavix://api/messaging/errors/22",
+      "file": "messaging/errors/22.md",
+      "title": "Sender ID not found"
+    },
+    {
+      "id": "messaging-errors-23",
+      "uri": "wavix://api/messaging/errors/23",
+      "file": "messaging/errors/23.md",
+      "title": "Rejected by a far-end carrier"
+    },
+    {
+      "id": "messaging-errors-24",
+      "uri": "wavix://api/messaging/errors/24",
+      "file": "messaging/errors/24.md",
+      "title": "Gateway rejected"
+    },
+    {
+      "id": "messaging-errors-25",
+      "uri": "wavix://api/messaging/errors/25",
+      "file": "messaging/errors/25.md",
+      "title": "Callback URL is invalid"
+    },
+    {
+      "id": "messaging-errors-26",
+      "uri": "wavix://api/messaging/errors/26",
+      "file": "messaging/errors/26.md",
+      "title": "You are only allowed to send _X_ SMS per second"
+    },
+    {
+      "id": "messaging-errors-29",
+      "uri": "wavix://api/messaging/errors/29",
+      "file": "messaging/errors/29.md",
+      "title": "Messaging is not supported by the destination carrier or handset"
+    },
+    {
+      "id": "messaging-errors-31",
+      "uri": "wavix://api/messaging/errors/31",
+      "file": "messaging/errors/31.md",
+      "title": "The number is inactive, lacks credits, or opted out of SMS"
+    },
+    {
+      "id": "messaging-errors-33",
+      "uri": "wavix://api/messaging/errors/33",
+      "file": "messaging/errors/33.md",
+      "title": "The message was rejected as SPAM or the Sender ID is associated with an inactive 10DLC Campaign"
+    },
+    {
+      "id": "messaging-errors-34",
+      "uri": "wavix://api/messaging/errors/34",
+      "file": "messaging/errors/34.md",
+      "title": "10DLC Brand or Campaign messaging limit exceeded"
+    },
+    {
+      "id": "messaging-errors-36",
+      "uri": "wavix://api/messaging/errors/36",
+      "file": "messaging/errors/36.md",
+      "title": "Daily quota exceeded (T-Mobile)"
+    },
+    {
+      "id": "messaging-errors-37",
+      "uri": "wavix://api/messaging/errors/37",
+      "file": "messaging/errors/37.md",
+      "title": "Spam message detected/rejected (AT&T)"
+    },
+    {
+      "id": "messaging-errors-38",
+      "uri": "wavix://api/messaging/errors/38",
+      "file": "messaging/errors/38.md",
+      "title": "Sending limit reached (AT&T)"
+    },
+    {
+      "id": "messaging-errors-41",
+      "uri": "wavix://api/messaging/errors/41",
+      "file": "messaging/errors/41.md",
+      "title": "Message too long"
+    },
+    {
+      "id": "messaging-errors-43",
+      "uri": "wavix://api/messaging/errors/43",
+      "file": "messaging/errors/43.md",
+      "title": "The message was blocked by the Verizon content filtering mechanism"
+    },
+    {
+      "id": "messaging-errors-44",
+      "uri": "wavix://api/messaging/errors/44",
+      "file": "messaging/errors/44.md",
+      "title": "The destination number is no longer active and should be removed from any subscriptions"
+    },
+    {
+      "id": "messaging-errors-45",
+      "uri": "wavix://api/messaging/errors/45",
+      "file": "messaging/errors/45.md",
+      "title": "Unsupported carrier"
+    },
+    {
+      "id": "messaging-errors-46",
+      "uri": "wavix://api/messaging/errors/46",
+      "file": "messaging/errors/46.md",
+      "title": "Non-compliant content or URL(s) detected and blocked"
+    },
+    {
+      "id": "messaging-errors-47",
+      "uri": "wavix://api/messaging/errors/47",
+      "file": "messaging/errors/47.md",
+      "title": "Messaging to the destination number is blocked for the next 60 minutes"
+    },
+    {
+      "id": "messaging-errors-5",
+      "uri": "wavix://api/messaging/errors/5",
+      "file": "messaging/errors/5.md",
+      "title": "The Sender ID is not provisioned for the country"
+    },
+    {
+      "id": "messaging-errors-55",
+      "uri": "wavix://api/messaging/errors/55",
+      "file": "messaging/errors/55.md",
+      "title": "Idempotency violation"
+    },
+    {
+      "id": "messaging-errors-7",
+      "uri": "wavix://api/messaging/errors/7",
+      "file": "messaging/errors/7.md",
+      "title": "Potential SMS flooding attack"
+    },
+    {
+      "id": "messaging-errors-9",
+      "uri": "wavix://api/messaging/errors/9",
+      "file": "messaging/errors/9.md",
+      "title": "Unsubscribed recipient"
+    },
+    {
+      "id": "messaging-guides-3cx-sms",
+      "uri": "wavix://api/messaging/guides/3cx-sms",
+      "file": "messaging/guides/3cx-sms.md",
+      "title": "3CX SMS setup guide"
+    },
+    {
+      "id": "messaging-receive-sms",
+      "uri": "wavix://api/messaging/receive-sms",
+      "file": "messaging/receive-sms.md",
+      "title": "Receive messages"
+    },
+    {
+      "id": "messaging-send-sms",
+      "uri": "wavix://api/messaging/send-sms",
+      "file": "messaging/send-sms.md",
+      "title": "Send SMS messages"
+    },
+    { "id": "messaging-smpp", "uri": "wavix://api/messaging/smpp", "file": "messaging/smpp.md", "title": "SMPP" },
+    {
+      "id": "messaging-troubleshooting",
+      "uri": "wavix://api/messaging/troubleshooting",
+      "file": "messaging/troubleshooting.md",
+      "title": "SMS troubleshooting guide"
+    },
+    {
+      "id": "messaging-webhooks-delivery-reports",
+      "uri": "wavix://api/messaging/webhooks-delivery-reports",
+      "file": "messaging/webhooks-delivery-reports.md",
+      "title": "Receiving message delivery reports"
+    },
+    {
+      "id": "messaging-webhooks-inbound-messages",
+      "uri": "wavix://api/messaging/webhooks-inbound-messages",
+      "file": "messaging/webhooks-inbound-messages.md",
+      "title": "Using webhooks to receive inbound messages"
+    },
+    {
+      "id": "numbers-number-validator",
+      "uri": "wavix://api/numbers/number-validator",
+      "file": "numbers/number-validator.md",
+      "title": "Number Validator API Overview"
+    },
+    {
+      "id": "numbers-numbers",
+      "uri": "wavix://api/numbers/numbers",
+      "file": "numbers/numbers.md",
+      "title": "Numbers API Overview"
+    },
+    {
+      "id": "sip-trunking-guides-3cx-sip-trunks",
+      "uri": "wavix://api/sip-trunking/guides/3cx-sip-trunks",
+      "file": "sip-trunking/guides/3cx-sip-trunks.md",
+      "title": "3CX SIP trunk setup via Wavix"
+    },
+    {
+      "id": "sip-trunking-guides-asterisk",
+      "uri": "wavix://api/sip-trunking/guides/asterisk",
+      "file": "sip-trunking/guides/asterisk.md",
+      "title": "How to configure Asterisk using Wavix SIP trunks"
+    },
+    {
+      "id": "sip-trunking-guides-freeswitch",
+      "uri": "wavix://api/sip-trunking/guides/freeswitch",
+      "file": "sip-trunking/guides/freeswitch.md",
+      "title": "How to configure FreeSWITCH using Wavix SIP trunks"
+    },
+    {
+      "id": "sip-trunking-guides-livekit",
+      "uri": "wavix://api/sip-trunking/guides/livekit",
+      "file": "sip-trunking/guides/livekit.md",
+      "title": "Connect LiveKit AI voice agent with Wavix"
+    },
+    {
+      "id": "sip-trunking-guides-openai",
+      "uri": "wavix://api/sip-trunking/guides/openai",
+      "file": "sip-trunking/guides/openai.md",
+      "title": "Connect Wavix to the OpenAI Realtime API"
+    },
+    {
+      "id": "sip-trunking-guides-vapi",
+      "uri": "wavix://api/sip-trunking/guides/vapi",
+      "file": "sip-trunking/guides/vapi.md",
+      "title": "Connect Vapi voice AI agents with Wavix"
+    },
+    {
+      "id": "sip-trunking-sip-trunks",
+      "uri": "wavix://api/sip-trunking/sip-trunks",
+      "file": "sip-trunking/sip-trunks.md",
+      "title": "SIP Trunks API overview"
+    },
+    {
+      "id": "voice-call-streaming",
+      "uri": "wavix://api/voice/call-streaming",
+      "file": "voice/call-streaming.md",
+      "title": "Stream calls with WebSocket"
+    },
+    {
+      "id": "voice-call-transcription",
+      "uri": "wavix://api/voice/call-transcription",
+      "file": "voice/call-transcription.md",
+      "title": "Call transcription with Speech Analytics API"
+    },
+    {
+      "id": "voice-campaign-builder",
+      "uri": "wavix://api/voice/campaign-builder",
+      "file": "voice/campaign-builder.md",
+      "title": "Voice Campaigns with Campaign Builder API"
+    },
+    { "id": "voice-cdr", "uri": "wavix://api/voice/cdr", "file": "voice/cdr.md", "title": "Retrieve call logs (CDRs)" },
+    {
+      "id": "voice-file-transcription",
+      "uri": "wavix://api/voice/file-transcription",
+      "file": "voice/file-transcription.md",
+      "title": "Call transcription with Speech Analytics API (file upload)"
+    },
+    {
+      "id": "voice-voice-ai",
+      "uri": "wavix://api/voice/voice-ai",
+      "file": "voice/voice-ai.md",
+      "title": "Getting started with Voice AI"
+    }
+  ]
+}

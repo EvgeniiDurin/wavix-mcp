@@ -1,7 +1,5 @@
 /**
  * Logger - Console with ELK-compatible JSON format
- *
- * TODO: Enhance by HelpersAgent
  */
 
 import dayjs from "dayjs"
@@ -9,6 +7,23 @@ import { config } from "../config/index.js"
 
 interface LogContext {
   [key: string]: unknown
+}
+
+/**
+ * Safe JSON stringify that handles circular references
+ */
+function safeStringify(obj: unknown): string {
+  const seen = new WeakSet<object>()
+
+  return JSON.stringify(obj, (_, value: unknown) => {
+    if (typeof value === "object" && value !== null) {
+      if (seen.has(value)) {
+        return "[Circular]"
+      }
+      seen.add(value)
+    }
+    return value
+  })
 }
 
 function formatLogEntry(level: string, message: string, context?: LogContext): string {
@@ -21,10 +36,10 @@ function formatLogEntry(level: string, message: string, context?: LogContext): s
   }
 
   if (config.isProduction) {
-    return JSON.stringify(entry)
+    return safeStringify(entry)
   }
 
-  const contextStr = context ? ` ${JSON.stringify(context)}` : ""
+  const contextStr = context ? ` ${safeStringify(context)}` : ""
   return `[${entry.timestamp}] ${level.toUpperCase()}: ${message}${contextStr}`
 }
 

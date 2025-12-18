@@ -1,0 +1,13 @@
+# Wavix Private Registry Configuration
+# Copy this file to .npmrc and configure authentication
+
+@wavix:registry=https://ci.unitedline.net/api/v4/projects/334/packages/npm/
+
+# For authentication, add one of the following:
+# Option 1: Personal Access Token
+# //ci.unitedline.net/api/v4/projects/334/packages/npm/:_authToken=${CI_JOB_TOKEN}
+
+# Option 2: NPM Token (from GitLab)
+# //ci.unitedline.net/api/v4/projects/334/packages/npm/:_authToken=YOUR_TOKEN_HERE
+
+

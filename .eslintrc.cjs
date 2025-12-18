@@ -1,41 +1,44 @@
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
   root: true,
-  env: {
-    node: true,
-    es2022: true,
-    jest: true
-  },
-  parser: "@typescript-eslint/parser",
+  extends: ["@wavix/eslint-config-node"],
   parserOptions: {
     ecmaVersion: 2022,
     sourceType: "module",
     project: "./tsconfig.eslint.json"
   },
-  plugins: ["@typescript-eslint", "prettier"],
-  extends: [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking",
-    "plugin:prettier/recommended"
-  ],
+  plugins: ["jest"],
   rules: {
-    // TypeScript
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/no-explicit-any": "warn",
-    "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+    "no-console": "off",
     "@typescript-eslint/no-floating-promises": "error",
     "@typescript-eslint/await-thenable": "error",
-
-    // General
-    "no-console": "off",
-    "prefer-const": "error",
-    "no-var": "error",
-
-    // Prettier
-    "prettier/prettier": "error"
+    "@typescript-eslint/consistent-type-imports": "off",
+    "@typescript-eslint/member-ordering": "off",
+    "no-plusplus": "off",
+    "import/order": "off"
   },
+  overrides: [
+    {
+      files: ["**/*.test.ts", "**/*.spec.ts"],
+      env: {
+        jest: true,
+        "jest/globals": true
+      },
+      extends: ["plugin:jest/recommended"],
+      rules: {
+        "jest/expect-expect": "warn",
+        "jest/no-disabled-tests": "warn",
+        "jest/no-focused-tests": "error",
+        "jest/no-conditional-expect": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/no-unsafe-argument": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/unbound-method": "off",
+        "@typescript-eslint/require-await": "off"
+      }
+    }
+  ],
   ignorePatterns: [
     "node_modules",
     "build",

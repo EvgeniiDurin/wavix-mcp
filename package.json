@@ -9,8 +9,8 @@
   },
   "files": [
     "build",
-    "src/resources/docs",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "clean": "rimraf build/*",
@@ -29,7 +29,10 @@
     "generate": "openapi-typescript api/wavix-api.yaml -o src/api/types.ts",
     "generate:tools": "tsx scripts/generate-tools.ts",
     "sync:openapi": "./scripts/sync-openapi.sh",
-    "prepublishOnly": "pnpm build"
+    "sync:api-docs": "./scripts/sync-api-docs.sh",
+    "sync:product-docs": "./scripts/sync-product-docs.sh",
+    "sync:all": "pnpm sync:openapi && pnpm sync:api-docs && pnpm sync:product-docs",
+    "prepublishOnly": "pnpm sync:all && pnpm generate && pnpm build"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.25.0",
@@ -40,6 +43,7 @@
     "uuid": "^10.0.0"
   },
   "devDependencies": {
+    "@jest/globals": "^30.2.0",
     "@swc/core": "^1.7.26",
     "@swc/jest": "^0.2.36",
     "@types/jest": "^29.5.13",
@@ -48,6 +52,7 @@
     "@types/uuid": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
+    "@wavix/eslint-config-node": "^1.1.1",
     "cross-env": "^7.0.3",
     "del": "^8.0.0",
     "eslint": "^8.57.1",
@@ -93,10 +98,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/wavix/wavix-mcp-server.git"
+    "url": "git+https://github.com/evgeniidurin-ai/mcp-wavix.git"
   },
   "bugs": {
-    "url": "https://github.com/wavix/wavix-mcp-server/issues"
+    "url": "https://github.com/evgeniidurin-ai/mcp-wavix/issues"
   },
-  "homepage": "https://github.com/wavix/wavix-mcp-server#readme"
+  "homepage": "https://github.com/evgeniidurin-ai/mcp-wavix#readme"
 }

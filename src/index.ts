@@ -27,25 +27,23 @@ async function main() {
   })
 
   // Handle graceful shutdown
-  process.on("SIGINT", async () => {
+  process.on("SIGINT", () => {
     logger.info("Received SIGINT, shutting down...")
-    await server.stop()
-    process.exit(0)
+    void server.stop().then(() => process.exit(0))
   })
 
-  process.on("SIGTERM", async () => {
+  process.on("SIGTERM", () => {
     logger.info("Received SIGTERM, shutting down...")
-    await server.stop()
-    process.exit(0)
+    void server.stop().then(() => process.exit(0))
   })
 
   // Handle uncaught errors
-  process.on("uncaughtException", (error) => {
+  process.on("uncaughtException", error => {
     logger.error("Uncaught exception", { error: error.message, stack: error.stack })
     process.exit(1)
   })
 
-  process.on("unhandledRejection", (reason) => {
+  process.on("unhandledRejection", reason => {
     logger.error("Unhandled rejection", { reason })
     process.exit(1)
   })
@@ -53,7 +51,7 @@ async function main() {
   await server.start()
 }
 
-main().catch((error) => {
+main().catch(error => {
   console.error("Failed to start server:", error)
   process.exit(1)
 })

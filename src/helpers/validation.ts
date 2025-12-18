@@ -1,7 +1,5 @@
 /**
  * Validation Utilities with Joi
- *
- * TODO: Enhance by HelpersAgent
  */
 
 import Joi from "joi"
@@ -18,11 +16,9 @@ export const e164Schema = Joi.string()
 /**
  * UUID v4 format
  */
-export const uuidSchema = Joi.string()
-  .uuid({ version: "uuidv4" })
-  .messages({
-    "string.guid": "Must be a valid UUID v4"
-  })
+export const uuidSchema = Joi.string().uuid({ version: "uuidv4" }).messages({
+  "string.guid": "Must be a valid UUID v4"
+})
 
 /**
  * Wavix API key format

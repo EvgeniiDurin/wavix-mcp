@@ -1,7 +1,5 @@
 /**
  * Data Masking Utilities
- *
- * TODO: Enhance by HelpersAgent
  */
 
 /**
@@ -41,7 +39,7 @@ export function maskEmail(email: string): string {
  * Mask sensitive fields in object for logging
  */
 export function maskSensitiveData<T extends Record<string, unknown>>(data: T): T {
-  const sensitiveFields = ["apiKey", "api_key", "password", "secret", "token"]
+  const sensitiveFields = ["apikey", "api_key", "password", "secret", "token"]
   const phoneFields = ["phone", "from", "to", "number"]
   const emailFields = ["email"]
 
@@ -49,11 +47,12 @@ export function maskSensitiveData<T extends Record<string, unknown>>(data: T): T
 
   for (const [key, value] of Object.entries(masked)) {
     if (typeof value === "string") {
-      if (sensitiveFields.some((f) => key.toLowerCase().includes(f))) {
+      const keyLower = key.toLowerCase()
+      if (sensitiveFields.some(f => keyLower.includes(f))) {
         masked[key as keyof T] = maskApiKey(value) as T[keyof T]
-      } else if (phoneFields.some((f) => key.toLowerCase().includes(f))) {
+      } else if (phoneFields.some(f => keyLower.includes(f))) {
         masked[key as keyof T] = maskPhone(value) as T[keyof T]
-      } else if (emailFields.some((f) => key.toLowerCase().includes(f))) {
+      } else if (emailFields.some(f => keyLower.includes(f))) {
         masked[key as keyof T] = maskEmail(value) as T[keyof T]
       }
     }

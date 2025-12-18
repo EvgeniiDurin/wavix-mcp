@@ -1,34 +1,53 @@
 # Dependencies
-node_modules/
+**/node_modules/
 
 # Build output
-build/
-dist/
+**/build/
+**/dist/
 
 # Environment
 .env
 .env.local
 .env.*.local
+*.env
+.npmrc
 
 # IDE
 .idea/
 .vscode/
 *.swp
 *.swo
-.DS_Store
 
 # Logs
-logs/
+**/logs/
 *.log
 npm-debug.log*
 pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # Test coverage
-coverage/
-
-# Generated files (keep in git for CI)
-# src/api/types.ts
-# src/tools/generated/
+**/coverage/
+.nyc_output/
 
 # OS
 Thumbs.db
+.DS_Store
+
+# Temporary files
+*.tmp
+*.temp
+**/.cache/
+
+# Package files
+*.tgz
+*.tar.gz
+
+# Generated files (keep in git for CI)
+# src/api/types.ts - keep in git
+# src/tools/generated/ - keep in git
+
+# Local test projects
+test-*/
+*-test/
+

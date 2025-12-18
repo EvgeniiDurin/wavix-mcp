@@ -1,0 +1,273 @@
+{
+  "source": "wavix.com",
+  "type": "exported",
+  "exportedAt": "2025-12-18T09:43:58.718Z",
+  "uriPrefix": "wavix://product",
+  "documents": [
+    {
+      "id": "faq-sip-trunk",
+      "uri": "wavix://product/faq/sip-trunk",
+      "file": "faq/sip-trunk.md",
+      "title": "SIP trunk FAQ",
+      "description": "Frequently asked questions about SIP trunk",
+      "category": "faq"
+    },
+    {
+      "id": "faq-account",
+      "uri": "wavix://product/faq/account",
+      "file": "faq/account.md",
+      "title": "Account FAQ",
+      "description": "Frequently asked questions about Account",
+      "category": "faq"
+    },
+    {
+      "id": "faq-phone-numbers",
+      "uri": "wavix://product/faq/phone-numbers",
+      "file": "faq/phone-numbers.md",
+      "title": "Phone numbers FAQ",
+      "description": "Frequently asked questions about Phone numbers",
+      "category": "faq"
+    },
+    {
+      "id": "faq-porting",
+      "uri": "wavix://product/faq/porting",
+      "file": "faq/porting.md",
+      "title": "Porting FAQ",
+      "description": "Frequently asked questions about Porting",
+      "category": "faq"
+    },
+    {
+      "id": "faq-general",
+      "uri": "wavix://product/faq/general",
+      "file": "faq/general.md",
+      "title": "General FAQ",
+      "description": "Frequently asked questions about General",
+      "category": "faq"
+    },
+    {
+      "id": "faq-sms",
+      "uri": "wavix://product/faq/sms",
+      "file": "faq/sms.md",
+      "title": "SMS FAQ",
+      "description": "Frequently asked questions about SMS",
+      "category": "faq"
+    },
+    {
+      "id": "pricing-voice",
+      "uri": "wavix://product/pricing/voice",
+      "file": "pricing/voice.md",
+      "title": "Voice Pricing",
+      "description": "Wavix Voice pricing and rates",
+      "category": "pricing"
+    },
+    {
+      "id": "pricing-sms",
+      "uri": "wavix://product/pricing/sms",
+      "file": "pricing/sms.md",
+      "title": "SMS Pricing",
+      "description": "Wavix SMS pricing and rates",
+      "category": "pricing"
+    },
+    {
+      "id": "pricing-phone-numbers",
+      "uri": "wavix://product/pricing/phone-numbers",
+      "file": "pricing/phone-numbers.md",
+      "title": "Phone Numbers Pricing",
+      "description": "Wavix Phone Numbers pricing and rates",
+      "category": "pricing"
+    },
+    {
+      "id": "pricing-overview",
+      "uri": "wavix://product/pricing/overview",
+      "file": "pricing/overview.md",
+      "title": "Wavix Pricing Overview",
+      "description": "Complete pricing guide for Wavix services",
+      "category": "pricing"
+    },
+    {
+      "id": "guide-10dlc",
+      "uri": "wavix://product/guides/10dlc",
+      "file": "guides/10dlc.md",
+      "title": "10DLC Registration Guide",
+      "description": "How to register your brand and campaign for 10DLC messaging in the US",
+      "category": "guides"
+    },
+    {
+      "id": "guide-asterisk",
+      "uri": "wavix://product/guides/asterisk",
+      "file": "guides/asterisk.md",
+      "title": "Asterisk SIP Trunk Configuration",
+      "description": "Configure Asterisk to make and receive calls using Wavix SIP trunks",
+      "category": "guides"
+    },
+    {
+      "id": "guide-3cx-trunks",
+      "uri": "wavix://product/guides/3cx-trunks",
+      "file": "guides/3cx-trunks.md",
+      "title": "3CX SIP Trunk Configuration",
+      "description": "Configure 3CX phone system with Wavix SIP trunks",
+      "category": "guides"
+    },
+    {
+      "id": "guide-3cx-sms",
+      "uri": "wavix://product/guides/3cx-sms",
+      "file": "guides/3cx-sms.md",
+      "title": "3CX SMS Integration",
+      "description": "Enable SMS messaging in 3CX using Wavix",
+      "category": "guides"
+    },
+    {
+      "id": "guide-freeswitch",
+      "uri": "wavix://product/guides/freeswitch",
+      "file": "guides/freeswitch.md",
+      "title": "FreeSwitch SIP Trunk Configuration",
+      "description": "Configure FreeSwitch to work with Wavix SIP trunks",
+      "category": "guides"
+    },
+    {
+      "id": "guide-livekit",
+      "uri": "wavix://product/guides/livekit",
+      "file": "guides/livekit.md",
+      "title": "LiveKit AI Voice Agent Integration",
+      "description": "Connect LiveKit AI voice agents with Wavix for telephony",
+      "category": "guides"
+    },
+    {
+      "id": "product-sms",
+      "uri": "wavix://product/products/sms",
+      "file": "products/sms.md",
+      "title": "SMS Messaging",
+      "description": "Enterprise SMS messaging platform for global 2-way communications",
+      "category": "products"
+    },
+    {
+      "id": "product-sip-trunk",
+      "uri": "wavix://product/products/sip-trunk",
+      "file": "products/sip-trunk.md",
+      "title": "SIP Trunking",
+      "description": "Enterprise-grade SIP trunking for voice communications",
+      "category": "products"
+    },
+    {
+      "id": "product-did-numbers",
+      "uri": "wavix://product/products/did-numbers",
+      "file": "products/did-numbers.md",
+      "title": "Phone Numbers (DID)",
+      "description": "Global phone number inventory with SMS, voice, and MMS capabilities",
+      "category": "products"
+    },
+    {
+      "id": "product-amd",
+      "uri": "wavix://product/products/amd",
+      "file": "products/amd.md",
+      "title": "Answering Machine Detection (AMD)",
+      "description": "AI-powered detection to distinguish live answers from voicemail",
+      "category": "products"
+    },
+    {
+      "id": "product-2fa",
+      "uri": "wavix://product/products/2fa",
+      "file": "products/2fa.md",
+      "title": "Two-Factor Authentication (2FA)",
+      "description": "Secure verification service for user authentication",
+      "category": "products"
+    },
+    {
+      "id": "product-speech-analytics",
+      "uri": "wavix://product/products/speech-analytics",
+      "file": "products/speech-analytics.md",
+      "title": "Speech Analytics",
+      "description": "AI-powered call analysis for quality control and insights",
+      "category": "products"
+    },
+    {
+      "id": "product-sms-broadcast",
+      "uri": "wavix://product/products/sms-broadcast",
+      "file": "products/sms-broadcast.md",
+      "title": "SMS Broadcast",
+      "description": "Mass SMS campaign management platform",
+      "category": "products"
+    },
+    {
+      "id": "product-campaign-builder",
+      "uri": "wavix://product/products/campaign-builder",
+      "file": "products/campaign-builder.md",
+      "title": "Campaign Builder",
+      "description": "Visual tool for creating voice and SMS campaigns",
+      "category": "products"
+    },
+    {
+      "id": "product-number-validator",
+      "uri": "wavix://product/products/number-validator",
+      "file": "products/number-validator.md",
+      "title": "Number Validator",
+      "description": "Phone number validation and data enrichment service",
+      "category": "products"
+    },
+    {
+      "id": "product-call-recording",
+      "uri": "wavix://product/products/call-recording",
+      "file": "products/call-recording.md",
+      "title": "Call Recording",
+      "description": "Automatic call recording with secure storage",
+      "category": "products"
+    },
+    {
+      "id": "product-account-levels",
+      "uri": "wavix://product/products/account-levels",
+      "file": "products/account-levels.md",
+      "title": "Account Plans",
+      "description": "Flexible pricing plans for different business needs",
+      "category": "products"
+    },
+    {
+      "id": "product-porting",
+      "uri": "wavix://product/products/porting",
+      "file": "products/porting.md",
+      "title": "Number Porting",
+      "description": "Transfer your existing phone numbers to Wavix",
+      "category": "products"
+    },
+    {
+      "id": "use-case-ecommerce-retail",
+      "uri": "wavix://product/use-cases/ecommerce-retail",
+      "file": "use-cases/ecommerce-retail.md",
+      "title": "E-Commerce & Retail",
+      "description": "Provide personalized shopping experience to your demanding customers. Increase sales, improve efficiency, and keep costs low. Enhance retail customer experiences using flexible communication technology.",
+      "category": "use-cases"
+    },
+    {
+      "id": "use-case-fintech-finance",
+      "uri": "wavix://product/use-cases/fintech-finance",
+      "file": "use-cases/fintech-finance.md",
+      "title": "Fintech & Finance",
+      "description": "Reshape financial services experience with simplified integration for digital channels. Communicate with customers the way they want and inspire trust. Build trust and improve convenience with Wavix's 2FA and secure communication channels.",
+      "category": "use-cases"
+    },
+    {
+      "id": "use-case-pickup-delivery",
+      "uri": "wavix://product/use-cases/pickup-delivery",
+      "file": "use-cases/pickup-delivery.md",
+      "title": "Pickup & Delivery",
+      "description": "Streamline your pickup and delivery operations with real-time communication. Keep customers informed, coordinate with drivers, and ensure smooth last-mile delivery.",
+      "category": "use-cases"
+    },
+    {
+      "id": "use-case-transportation-logistics",
+      "uri": "wavix://product/use-cases/transportation-logistics",
+      "file": "use-cases/transportation-logistics.md",
+      "title": "Transportation & Logistics",
+      "description": "Optimize your transportation and logistics operations with comprehensive communication solutions. From fleet management to customer updates, keep everyone connected.",
+      "category": "use-cases"
+    },
+    {
+      "id": "use-case-travel-hospitality",
+      "uri": "wavix://product/use-cases/travel-hospitality",
+      "file": "use-cases/travel-hospitality.md",
+      "title": "Travel & Hospitality",
+      "description": "Deliver exceptional guest experiences through personalized communication. From booking confirmations to concierge services, make every interaction memorable.",
+      "category": "use-cases"
+    }
+  ],
+  "syncedAt": "2025-12-18T10:04:10Z"
+}
