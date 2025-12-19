@@ -8,9 +8,9 @@ MCP (Model Context Protocol) server for Wavix Telecom API. Provides AI assistant
 
 ## Features
 
-- **78 Tools** - Full API coverage (SMS, Voice, Numbers, 2FA, 10DLC, SIP Trunking, etc.)
-- **103 Documentation Resources** - API and product documentation accessible via MCP
-- **57 Prompts** - Code integration templates and examples
+- **36 Tools** - Full API coverage (SMS, Voice, Numbers, 2FA, 10DLC, SIP Trunking, etc.)
+- **98 Documentation Resources** - API and product documentation accessible via MCP
+- **51 Prompts** - Code integration templates and examples
 - **Two Operating Modes** - Setup Mode (no API key) and Full Mode (with API key)
 - **Auto-generated** - Tools and types from OpenAPI specification
 
@@ -93,12 +93,12 @@ claude mcp list
 
 | Mode | API Key | Features |
 |------|---------|----------|
-| **Setup Mode** | Not required | Documentation (103 files), prompts (57), code generation, examples |
-| **Full Mode** | Required | All Setup Mode features + 78 API tools for real operations |
+| **Setup Mode** | Not required | Documentation (98 files), prompts (51), code generation, examples |
+| **Full Mode** | Required | All Setup Mode features + 36 API tools for real operations |
 
 ## Available Tools
 
-78 tools organized by category:
+36 tools organized by category:
 
 | Category | Tools | Examples |
 |----------|-------|----------|
@@ -117,8 +117,8 @@ claude mcp list
 
 ## Resources & Prompts
 
-- **103 Documentation Resources** (`wavix://api/...`, `wavix://product/...`) - API reference, guides, error codes
-- **57 Prompts** - `wavix-integrate`, `wavix-webhook-setup`, `send_sms`, `call_start`, etc.
+- **98 Documentation Resources** (`wavix://api/...`, `wavix://product/...`) - API reference, guides, error codes
+- **51 Prompts** - `wavix-integrate`, `wavix-webhook-setup`, `send_sms`, `call_start`, etc.
 
 ## Examples
 
