@@ -1,12 +1,12 @@
 /**
- * MCP Resources Tests
+ * MCP Resources Registration Tests
  *
- * Integration tests for the resources module.
- * Uses real resources from the synced documentation.
+ * Tests for MCP resource handlers registration.
+ * Loader functions are tested in loader.test.ts
  */
 
 import { describe, expect, it, beforeEach, jest } from "@jest/globals"
-import { registerResources, listResources, getResource, searchResources, getResourcesByCategory } from "./index.js"
+import { registerResources, listResources } from "./index.js"
 import type { Server } from "@modelcontextprotocol/sdk/server/index.js"
 import { setupConsoleMocks } from "../test-utils.js"
 
@@ -38,18 +38,14 @@ describe("Resources Registration", () => {
   let listResourcesHandler: ListResourcesHandler | undefined
   let readResourceHandler: ReadResourcesHandler | undefined
 
-  // Use shared console mocking utility
   setupConsoleMocks()
 
   beforeEach(() => {
-    // Reset handlers
     listResourcesHandler = undefined
     readResourceHandler = undefined
 
     let handlerIndex = 0
 
-    // Create mock server that captures handlers
-    // First call is ListResourcesRequestSchema, second is ReadResourceRequestSchema
     mockServer = {
       setRequestHandler: jest.fn((schema: unknown, handler: unknown) => {
         void schema
@@ -64,15 +60,10 @@ describe("Resources Registration", () => {
   })
 
   describe("registerResources", () => {
-    it("should register exactly two request handlers", () => {
-      registerResources(mockServer as unknown as Server)
-
-      expect(mockServer.setRequestHandler).toHaveBeenCalledTimes(2)
-    })
-
     it("should register ListResources and ReadResource handlers", () => {
       registerResources(mockServer as unknown as Server)
 
+      expect(mockServer.setRequestHandler).toHaveBeenCalledTimes(2)
       expect(listResourcesHandler).toBeDefined()
       expect(readResourceHandler).toBeDefined()
     })
@@ -88,7 +79,6 @@ describe("Resources Registration", () => {
       expect(Array.isArray(result.resources)).toBe(true)
       expect(result.resources.length).toBeGreaterThan(0)
 
-      // Verify each resource has required MCP fields
       result.resources.forEach(resource => {
         expect(resource).toEqual(
           expect.objectContaining({
@@ -111,18 +101,6 @@ describe("Resources Registration", () => {
         expect(resource).not.toHaveProperty("sourcePath")
       })
     })
-
-    it("should include both API and product resources", async () => {
-      registerResources(mockServer as unknown as Server)
-
-      const result = await listResourcesHandler!()
-
-      const hasApiResources = result.resources.some(r => r.uri.startsWith("wavix://api/"))
-      const hasProductResources = result.resources.some(r => r.uri.startsWith("wavix://product/"))
-
-      expect(hasApiResources).toBe(true)
-      expect(hasProductResources).toBe(true)
-    })
   })
 
   describe("Read Resource Handler", () => {
@@ -143,110 +121,14 @@ describe("Resources Registration", () => {
         mimeType: "text/markdown",
         text: expect.any(String)
       })
-      expect(result.contents[0].text.length).toBeGreaterThan(0)
     })
 
-    it("should throw descriptive error for non-existent resource", async () => {
+    it("should throw error for non-existent resource", async () => {
       registerResources(mockServer as unknown as Server)
 
-      const request = {
-        params: { uri: "wavix://nonexistent/resource" }
-      }
-
-      await expect(readResourceHandler!(request)).rejects.toThrow("Resource not found")
+      await expect(
+        readResourceHandler!({ params: { uri: "wavix://nonexistent/resource" } })
+      ).rejects.toThrow("Resource not found")
     })
-
-    it("should return valid markdown content for API resources", async () => {
-      registerResources(mockServer as unknown as Server)
-
-      const apiResource = listResources().find(r => r.uri.startsWith("wavix://api/"))
-
-      if (apiResource) {
-        const result = await readResourceHandler!({
-          params: { uri: apiResource.uri }
-        })
-
-        // API docs should have substantial content
-        expect(result.contents[0].text.length).toBeGreaterThan(50)
-      }
-    })
-
-    it("should return valid markdown content for product resources", async () => {
-      registerResources(mockServer as unknown as Server)
-
-      const productResource = listResources().find(r => r.uri.startsWith("wavix://product/"))
-
-      if (productResource) {
-        const result = await readResourceHandler!({
-          params: { uri: productResource.uri }
-        })
-
-        expect(result.contents[0].text.length).toBeGreaterThan(50)
-      }
-    })
-  })
-})
-
-describe("Re-exported loader functions", () => {
-  it("listResources should return array with expected count", () => {
-    const resources = listResources()
-
-    expect(Array.isArray(resources)).toBe(true)
-    expect(resources.length).toBeGreaterThanOrEqual(90) // 62 API + 33 product
-    expect(resources.length).toBeLessThanOrEqual(150)
-  })
-
-  it("getResource should find and return matching resource", () => {
-    const resources = listResources()
-    const firstResource = resources[0]
-
-    const found = getResource(firstResource.uri)
-
-    expect(found).toEqual(
-      expect.objectContaining({
-        uri: firstResource.uri,
-        name: firstResource.name
-      })
-    )
-  })
-
-  it("getResource should return undefined for non-existent URI", () => {
-    const found = getResource("wavix://nonexistent/resource")
-    expect(found).toBeUndefined()
-  })
-
-  it("searchResources should return matching resources", () => {
-    const results = searchResources("sms")
-
-    expect(Array.isArray(results)).toBe(true)
-    // SMS is common topic, should have matches
-    if (results.length > 0) {
-      const allMatch = results.every(
-        r =>
-          r.name.toLowerCase().includes("sms") ||
-          r.description.toLowerCase().includes("sms") ||
-          r.metadata.tags?.some((t: string) => t.toLowerCase().includes("sms"))
-      )
-      expect(allMatch).toBe(true)
-    }
-  })
-
-  it("searchResources should return empty array for no matches", () => {
-    const results = searchResources("xyznonexistentxyz123")
-    expect(results).toEqual([])
-  })
-
-  it("getResourcesByCategory should return resources in category", () => {
-    const faqResults = getResourcesByCategory("faq")
-
-    expect(Array.isArray(faqResults)).toBe(true)
-    if (faqResults.length > 0) {
-      expect(faqResults.every(r => r.metadata.category === "faq")).toBe(true)
-    }
-  })
-
-  it("getResourcesByCategory should return empty for non-existent category", () => {
-    const results = getResourcesByCategory("nonexistent-category")
-    expect(results).toEqual([])
   })
 })

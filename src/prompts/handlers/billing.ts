@@ -5,7 +5,8 @@
 import { createTextPrompt, type PromptHandlerMap } from "./types.js"
 
 export const billingHandlers: PromptHandlerMap = {
-  check_balance: () => createTextPrompt("Check account balance.\n\nUse profile_get tool. Show balance and account status."),
+  check_balance: () =>
+    createTextPrompt("Check account balance.\n\nUse profile_get tool. Show balance and account status."),
 
   get_transaction_history: args =>
     createTextPrompt(

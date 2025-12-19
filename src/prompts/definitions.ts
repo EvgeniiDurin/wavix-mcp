@@ -269,16 +269,12 @@ export const tenDlcPrompts: Array<Prompt> = [
   {
     name: "list_10dlc_campaigns",
     description: "List all 10DLC campaigns for a brand or account",
-    arguments: [
-      { name: "brand_id", description: "Brand ID to filter by (optional)", required: false }
-    ]
+    arguments: [{ name: "brand_id", description: "Brand ID to filter by (optional)", required: false }]
   },
   {
     name: "delete_10dlc_brand",
     description: "Delete a 10DLC brand (campaigns must be deleted first)",
-    arguments: [
-      { name: "brand_id", description: "Brand ID to delete", required: true }
-    ]
+    arguments: [{ name: "brand_id", description: "Brand ID to delete", required: true }]
   },
   {
     name: "delete_10dlc_campaign",
@@ -409,22 +405,26 @@ export const integrationPrompts: Array<Prompt> = [
       { name: "framework", description: "Framework (express, flask, laravel, gin, spring)", required: false },
       {
         name: "events",
-        description:
-          "Comma-separated list of events to handle (message.received, message.delivered, call.completed)",
+        description: "Comma-separated list of events to handle (message.received, message.delivered, call.completed)",
         required: false
       }
     ]
   },
   {
     name: "wavix-quickstart",
-    description: "Generate quickstart code to send your first SMS or make your first call",
+    description: "Generate quickstart code for common Wavix API operations",
     arguments: [
       {
         name: "language",
         description: "Programming language (node, python, php, go, java, csharp)",
         required: true
       },
-      { name: "action", description: "Action to perform (sms, call, 2fa)", required: true }
+      {
+        name: "action",
+        description:
+          "Action to perform: sms (send SMS), mms (send MMS with media), call (make call), 2fa (send verification code), validation (validate phone number), numbers (list your numbers), webhook (setup webhooks), balance (check balance)",
+        required: true
+      }
     ]
   }
 ]

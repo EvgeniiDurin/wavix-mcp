@@ -28,9 +28,9 @@ const envVarsSchema = Joi.object<EnvVars>({
   NODE_ENV: Joi.string().valid("development", "production", "test").default("development"),
 
   // Wavix API Configuration
-  // API key is OPTIONAL — without it, only Resources (documentation) are available
-  // With API key, full Tools functionality (sms_send, call_start, etc.) is enabled
-  WAVIX_API_KEY: Joi.string().allow("").optional().description("Wavix API key (optional for documentation mode)"),
+  // API key is OPTIONAL — without it, Setup Mode is enabled (planning, code generation, documentation)
+  // With API key, Full Mode is enabled (all Tools functionality: sms_send, call_start, etc.)
+  WAVIX_API_KEY: Joi.string().allow("").optional().description("Wavix API key (optional for setup mode)"),
   WAVIX_API_URL: Joi.string().uri().default("https://api.wavix.com").description("Wavix API base URL"),
 
   // Logging
@@ -63,7 +63,7 @@ export interface Config {
   wavix: {
     apiKey: string | undefined
     apiUrl: string
-    hasApiKey: boolean // true = Full Mode (Tools enabled), false = Documentation Mode only
+    hasApiKey: boolean // true = Full Mode (Tools enabled), false = Setup Mode only
   }
   logging: {
     level: string
@@ -85,7 +85,7 @@ export const config: Config = {
   wavix: {
     apiKey: envVars.WAVIX_API_KEY,
     apiUrl: envVars.WAVIX_API_URL,
-    hasApiKey: !!envVars.WAVIX_API_KEY // Documentation Mode if false, Full Mode if true
+    hasApiKey: !!envVars.WAVIX_API_KEY // Setup Mode if false, Full Mode if true
   },
   logging: {
     level: envVars.LOG_LEVEL

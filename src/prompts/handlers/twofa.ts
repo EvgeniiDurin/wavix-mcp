@@ -21,7 +21,5 @@ export const twofaHandlers: PromptHandlerMap = {
     ),
 
   cancel_2fa: args =>
-    createTextPrompt(
-      `Cancel 2FA session ${args?.session_id}.\n\nUse two_fa_verification_cancel_patch tool.`
-    )
+    createTextPrompt(`Cancel 2FA session ${args?.session_id}.\n\nUse two_fa_verification_cancel_patch tool.`)
 }

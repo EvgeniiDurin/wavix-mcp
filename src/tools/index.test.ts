@@ -97,13 +97,30 @@ describe("Tools Registry", () => {
       })
     })
 
-    it("should return tools with action parameter in inputSchema", async () => {
+    it("should return tools with action parameter in inputSchema for generated tools", async () => {
       registerTools(mockServer as unknown as Server, mockClient as WavixClient)
 
       const result = await listToolsHandler!({})
 
-      // Each grouped tool should have action parameter
-      result.tools.forEach(tool => {
+      const nonGeneratedToolNames = [
+        "wavix_assistant",
+        "quick_check",
+        "send_message",
+        "integration_example",
+        "endpoint_info",
+        "list_endpoints",
+        "troubleshoot",
+        "diagnose_error",
+        "check_prerequisites",
+        "search_errors",
+        "explain",
+        "get_recipe",
+        "list_recipes",
+        "get_recipe_step"
+      ]
+      const generatedToolsInResult = result.tools.filter(t => !nonGeneratedToolNames.includes(t.name))
+
+      generatedToolsInResult.forEach(tool => {
         expect(tool.inputSchema).toHaveProperty("properties")
         const props = (tool.inputSchema as { properties: object }).properties
         expect(props).toHaveProperty("action")
@@ -112,13 +129,17 @@ describe("Tools Registry", () => {
   })
 
   describe("Tools availability", () => {
-    it("should expose all generated tools regardless of API key presence", async () => {
+    it("should expose all generated tools plus smart and helper tools", async () => {
       registerTools(mockServer as unknown as Server, mockClient as WavixClient)
 
       const result = await listToolsHandler!({})
 
-      // All tools should be visible, even without API key
-      expect(result.tools.length).toBe(generatedTools.length)
+      expect(result.tools.length).toBeGreaterThan(generatedTools.length)
+
+      const toolNames = result.tools.map(t => t.name)
+      expect(toolNames).toContain("wavix_assistant")
+      expect(toolNames).toContain("quick_check")
+      expect(toolNames).toContain("send_message")
     })
 
     it("should return clear error message when calling tool without API key", async () => {

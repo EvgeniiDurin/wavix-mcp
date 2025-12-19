@@ -78,6 +78,41 @@ export function setupConsoleMocks(): MockedConsole {
 }
 
 /**
+ * Mocked stderr interface
+ */
+export interface MockedStderr {
+  write: jest.MockedFunction<typeof process.stderr.write>
+  calls: () => Array<string>
+}
+
+/**
+ * Setup stderr mocking for logger tests.
+ * Logger writes to stderr, not console.
+ */
+export function setupStderrMocks(): MockedStderr {
+  const originalWrite = process.stderr.write.bind(process.stderr)
+  const mockWrite = jest.fn() as jest.MockedFunction<typeof process.stderr.write>
+
+  beforeEach(() => {
+    mockWrite.mockClear()
+    process.stderr.write = mockWrite
+  })
+
+  afterEach(() => {
+    process.stderr.write = originalWrite
+  })
+
+  return {
+    write: mockWrite,
+    calls: () =>
+      mockWrite.mock.calls.map(call => {
+        const arg = call[0]
+        return typeof arg === "string" ? arg : arg.toString()
+      })
+  }
+}
+
+/**
  * Create a mock fetch function with common response patterns.
  */
 export function createMockFetch() {
@@ -115,10 +150,22 @@ export function createMockFetch() {
     },
 
     /**
-     * Mock a timeout (never resolves within test timeout)
+     * Mock a timeout that respects AbortSignal
      */
     mockTimeout: () => {
-      mockFetch.mockImplementation(() => new Promise(resolve => setTimeout(() => resolve({} as Response), 100000)))
+      mockFetch.mockImplementation((_url, options) => {
+        return new Promise((_resolve, reject) => {
+          const signal = options?.signal as AbortSignal | undefined
+          if (signal) {
+            signal.addEventListener("abort", () => {
+              const error = new Error("The operation was aborted")
+              error.name = "AbortError"
+              reject(error)
+            })
+          }
+          // Never resolves naturally, waits for abort
+        })
+      })
     },
 
     /**

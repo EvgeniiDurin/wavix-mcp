@@ -36,7 +36,12 @@ export function getQuickstartAction(action: string | undefined): string {
   const actions: Record<string, string> = {
     sms: "send your first SMS message",
     call: "make your first call",
-    "2fa": "send your first 2FA verification code"
+    "2fa": "send your first 2FA verification code",
+    validation: "validate a phone number",
+    numbers: "list your phone numbers",
+    webhook: "set up delivery webhooks",
+    balance: "check your account balance",
+    mms: "send an MMS with media"
   }
   return actions[action?.toLowerCase() || ""] || "get started with Wavix API"
 }
@@ -45,7 +50,12 @@ export function getQuickstartDocPath(action: string | undefined): string {
   const paths: Record<string, string> = {
     sms: "messaging/send-sms",
     call: "voice/make-call",
-    "2fa": "messaging/2fa"
+    "2fa": "messaging/2fa",
+    validation: "number-validation",
+    numbers: "my-numbers",
+    webhook: "webhooks",
+    balance: "billing",
+    mms: "messaging/send-mms"
   }
   return paths[action?.toLowerCase() || ""] || "api-reference/getting-started"
 }
@@ -211,6 +221,245 @@ POST https://api.wavix.com/v1/two-fa/verification/{session_id}/check
 
 **Testing:**
 You need a 2FA Service ID from Wavix dashboard. Use a real phone number you control to receive the code.`
+  }
+
+  if (actionLower === "validation") {
+    return `## Phone Validation Quickstart Instructions
+
+**API Endpoint:**
+GET https://api.wavix.com/v1/lookup?appid={WAVIX_API_KEY}&phone_number={PHONE_NUMBER}&type=validation
+
+**Query Parameters:**
+- \`phone_number\`: Phone number to validate (E.164 format recommended)
+- \`type\`: Validation type - "format" (free), "analysis" (basic), "validation" (HLR lookup)
+
+**Response (200 OK):**
+\`\`\`json
+{
+  "valid": true,
+  "phone_number": "+15551234567",
+  "country_code": "US",
+  "carrier": "Verizon Wireless",
+  "line_type": "mobile",
+  "ported": false
+}
+\`\`\`
+
+**Validation Types:**
+- \`format\`: Free format check only
+- \`analysis\`: Carrier/line type lookup
+- \`validation\`: Full HLR lookup (most accurate, real-time)
+
+**Example Code Structure:**
+1. Load WAVIX_API_KEY from environment
+2. URL-encode the phone number
+3. Make GET request to /v1/lookup endpoint
+4. Handle response: check valid field and show details
+5. Handle errors: show error message
+
+**Common Errors:**
+- 401: Invalid API key
+- 400: Invalid phone number format
+- 402: Insufficient balance (for paid lookups)
+
+**Use Cases:**
+- Clean contact lists before SMS campaigns
+- Verify user-provided phone numbers
+- Detect carrier for routing decisions`
+  }
+
+  if (actionLower === "numbers") {
+    return `## List Numbers Quickstart Instructions
+
+**API Endpoint:**
+GET https://api.wavix.com/v1/dids?appid={WAVIX_API_KEY}
+
+**Query Parameters (Optional):**
+- \`page\`: Page number (default: 1)
+- \`per_page\`: Results per page (default: 25, max: 100)
+- \`search\`: Filter by digits in number
+
+**Response (200 OK):**
+\`\`\`json
+{
+  "data": [
+    {
+      "id": 12345,
+      "number": "+15551234567",
+      "label": "Main Line",
+      "sms_enabled": true,
+      "voice_enabled": true,
+      "city": "New York",
+      "country": "US"
+    }
+  ],
+  "meta": {
+    "total": 5,
+    "page": 1,
+    "per_page": 25
+  }
+}
+\`\`\`
+
+**Example Code Structure:**
+1. Load WAVIX_API_KEY from environment
+2. Make GET request to /v1/dids endpoint
+3. Handle response: iterate through data array
+4. Display number details (number, label, capabilities)
+5. Handle pagination if needed
+
+**Common Errors:**
+- 401: Invalid API key
+
+**Useful Operations:**
+- Filter by label: ?label=Marketing
+- Search by digits: ?search=555
+- Check SMS capability: sms_enabled field`
+  }
+
+  if (actionLower === "webhook") {
+    return `## Webhook Setup Quickstart Instructions
+
+**API Endpoint (SMS Webhooks):**
+PUT https://api.wavix.com/v3/profile?appid={WAVIX_API_KEY}
+
+**Request Body:**
+\`\`\`json
+{
+  "sms_relay_url": "https://your-server.com/webhooks/sms",
+  "dlr_relay_url": "https://your-server.com/webhooks/delivery"
+}
+\`\`\`
+
+**Webhook Types:**
+- \`sms_relay_url\`: Inbound SMS messages
+- \`dlr_relay_url\`: Delivery reports (status updates)
+
+**Inbound SMS Webhook Payload:**
+\`\`\`json
+{
+  "message_id": "abc123",
+  "from": "+15551234567",
+  "to": "+15559876543",
+  "text": "Hello!",
+  "received_at": "2024-01-01T12:00:00Z"
+}
+\`\`\`
+
+**Delivery Report Webhook Payload:**
+\`\`\`json
+{
+  "message_id": "abc123",
+  "status": "delivered",
+  "delivered_at": "2024-01-01T12:00:05Z"
+}
+\`\`\`
+
+**Example Code Structure:**
+1. Load WAVIX_API_KEY from environment
+2. Make PUT request to /v3/profile with webhook URLs
+3. Confirm response shows updated URLs
+4. Set up HTTP endpoint to receive webhooks
+5. Parse JSON payload and process events
+
+**Requirements:**
+- HTTPS URL (SSL required)
+- Respond with 200 OK within 10 seconds
+- URL must be publicly accessible
+
+**Testing:**
+Use ngrok or similar to expose local server for testing.`
+  }
+
+  if (actionLower === "balance") {
+    return `## Check Balance Quickstart Instructions
+
+**API Endpoint:**
+GET https://api.wavix.com/v3/profile/config?appid={WAVIX_API_KEY}
+
+**Response (200 OK):**
+\`\`\`json
+{
+  "balance": "125.50",
+  "currency": "USD",
+  "outbound_sms_rate": "0.02",
+  "inbound_sms_rate": "0.01",
+  "low_balance_threshold": "10.00"
+}
+\`\`\`
+
+**Example Code Structure:**
+1. Load WAVIX_API_KEY from environment
+2. Make GET request to /v3/profile/config endpoint
+3. Parse balance from response
+4. Display balance with currency
+5. Optional: warn if below threshold
+
+**Common Errors:**
+- 401: Invalid API key
+
+**Useful for:**
+- Monitor account balance programmatically
+- Set up low balance alerts
+- Check rates before sending`
+  }
+
+  if (actionLower === "mms") {
+    return `## Send MMS Quickstart Instructions
+
+**API Endpoint:**
+POST https://api.wavix.com/v3/messages?appid={WAVIX_API_KEY}
+
+**Request Body:**
+\`\`\`json
+{
+  "from": "+15551234567",
+  "to": "+15559876543",
+  "message_body": {
+    "text": "Check out this image!",
+    "media_urls": [
+      "https://example.com/image.jpg"
+    ]
+  }
+}
+\`\`\`
+
+**Required Fields:**
+- \`from\`: Your Wavix number (must support MMS)
+- \`to\`: Destination number in E.164 format
+- \`message_body.media_urls\`: Array of media URLs (max 5)
+
+**Supported Media Types:**
+- Images: JPEG, PNG, GIF (max 5MB each)
+- Audio: MP3, WAV (max 600KB)
+- Video: MP4, 3GP (max 30MB)
+
+**Response (201 Created):**
+\`\`\`json
+{
+  "message_id": "871b4eeb-f798-4105-be23-32df9e991456",
+  "status": "accepted",
+  "type": "mms",
+  "segments": 1
+}
+\`\`\`
+
+**Example Code Structure:**
+1. Load WAVIX_API_KEY from environment
+2. Validate phone numbers are in E.164 format
+3. Ensure media URLs are publicly accessible
+4. Make POST request to /v3/messages endpoint
+5. Handle response: show message_id and status
+
+**Important Notes:**
+- MMS only available for US/Canada numbers
+- Media URLs must be publicly accessible (no auth)
+- Text is optional with MMS
+
+**Common Errors:**
+- 400: Invalid media URL or unsupported format
+- 402: Insufficient balance
+- 422: Number doesn't support MMS`
   }
 
   return `## General Instructions

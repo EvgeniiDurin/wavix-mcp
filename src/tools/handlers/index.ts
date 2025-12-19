@@ -173,11 +173,7 @@ export async function handleToolCall(client: WavixClient, toolName: string, args
 /**
  * Handle config actions (get/set API URL)
  */
-function handleConfigAction(
-  client: WavixClient,
-  action: string,
-  params: Record<string, unknown>
-): CallToolResult {
+function handleConfigAction(client: WavixClient, action: string, params: Record<string, unknown>): CallToolResult {
   if (action === "get_api_url") {
     return {
       content: [

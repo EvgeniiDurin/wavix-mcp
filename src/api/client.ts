@@ -37,7 +37,7 @@ export class WavixClient {
 
     logger.debug("WavixClient initialized", {
       baseUrl: this.baseUrl,
-      apiKey: this.apiKey ? maskApiKey(this.apiKey) : "(not set - Documentation Mode)",
+      apiKey: this.apiKey ? maskApiKey(this.apiKey) : "(not set - Setup Mode)",
       hasApiKey: config.wavix.hasApiKey
     })
   }

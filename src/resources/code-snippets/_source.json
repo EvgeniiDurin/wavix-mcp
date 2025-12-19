@@ -1,0 +1,89 @@
+{
+  "source": "wavix-mcp-server",
+  "type": "code-snippets",
+  "description": "Ready-to-use code examples for Wavix API integration",
+  "syncedAt": "2025-12-18T18:00:00Z",
+  "uriPrefix": "wavix://code",
+  "documents": [
+    {
+      "id": "node-send-sms",
+      "uri": "wavix://code/node/send-sms",
+      "file": "node/send-sms.md",
+      "title": "Send SMS - Node.js",
+      "description": "Complete Node.js example for sending SMS/MMS via Wavix API",
+      "category": "node",
+      "tags": ["sms", "mms", "messaging", "node", "javascript"],
+      "relatedTools": ["sms"]
+    },
+    {
+      "id": "node-validate-number",
+      "uri": "wavix://code/node/validate-number",
+      "file": "node/validate-number.md",
+      "title": "Validate Number - Node.js",
+      "description": "Phone number validation and HLR lookup with Node.js",
+      "category": "node",
+      "tags": ["validation", "hlr", "lookup", "node", "javascript"],
+      "relatedTools": ["validation"]
+    },
+    {
+      "id": "node-two-fa",
+      "uri": "wavix://code/node/two-fa",
+      "file": "node/two-fa.md",
+      "title": "2FA - Node.js",
+      "description": "Two-factor authentication implementation with Node.js",
+      "category": "node",
+      "tags": ["2fa", "authentication", "verification", "node", "javascript"],
+      "relatedTools": ["two_fa"]
+    },
+    {
+      "id": "node-make-call",
+      "uri": "wavix://code/node/make-call",
+      "file": "node/make-call.md",
+      "title": "Make Call - Node.js",
+      "description": "Voice call control with Node.js - create, record, DTMF",
+      "category": "node",
+      "tags": ["calls", "voice", "recording", "dtmf", "node", "javascript"],
+      "relatedTools": ["calls"]
+    },
+    {
+      "id": "curl-send-sms",
+      "uri": "wavix://code/curl/send-sms",
+      "file": "curl/send-sms.md",
+      "title": "Send SMS - cURL",
+      "description": "Send SMS/MMS with cURL commands",
+      "category": "curl",
+      "tags": ["sms", "mms", "messaging", "curl", "bash"],
+      "relatedTools": ["sms"]
+    },
+    {
+      "id": "curl-validate-number",
+      "uri": "wavix://code/curl/validate-number",
+      "file": "curl/validate-number.md",
+      "title": "Validate Number - cURL",
+      "description": "Phone validation with cURL",
+      "category": "curl",
+      "tags": ["validation", "hlr", "lookup", "curl", "bash"],
+      "relatedTools": ["validation"]
+    },
+    {
+      "id": "curl-two-fa",
+      "uri": "wavix://code/curl/two-fa",
+      "file": "curl/two-fa.md",
+      "title": "2FA - cURL",
+      "description": "Two-factor authentication with cURL",
+      "category": "curl",
+      "tags": ["2fa", "authentication", "verification", "curl", "bash"],
+      "relatedTools": ["two_fa"]
+    },
+    {
+      "id": "curl-make-call",
+      "uri": "wavix://code/curl/make-call",
+      "file": "curl/make-call.md",
+      "title": "Make Call - cURL",
+      "description": "Voice call control with cURL",
+      "category": "curl",
+      "tags": ["calls", "voice", "recording", "curl", "bash"],
+      "relatedTools": ["calls"]
+    }
+  ]
+}

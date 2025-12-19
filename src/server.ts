@@ -44,7 +44,7 @@ export class WavixMcpServer {
     log.info("Initializing MCP server", {
       name: config.mcp.serverName,
       version: config.mcp.serverVersion,
-      mode: config.wavix.hasApiKey ? "Full Mode" : "Documentation Mode"
+      mode: config.wavix.hasApiKey ? "Full Mode" : "Setup Mode"
     })
 
     // Register tools

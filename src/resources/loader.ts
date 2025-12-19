@@ -49,7 +49,8 @@ export interface LoadedResource {
 // Resource sources configuration
 const RESOURCE_SOURCES = [
   { dir: "api", name: "API Documentation" },
-  { dir: "product", name: "Product Documentation" }
+  { dir: "product", name: "Product Documentation" },
+  { dir: "code-snippets", name: "Code Snippets" }
 ]
 
 let cachedResources: Map<string, LoadedResource> | null = null

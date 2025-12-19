@@ -17,7 +17,7 @@ async function main() {
   logger.info("Starting Wavix MCP Server", {
     name: config.mcp.serverName,
     version: config.mcp.serverVersion,
-    mode: config.wavix.hasApiKey ? "Full Mode (Tools enabled)" : "Documentation Mode",
+    mode: config.wavix.hasApiKey ? "Full Mode (Tools enabled)" : "Setup Mode",
     env: config.nodeEnv
   })
 

@@ -368,11 +368,12 @@ describe("WavixClient", () => {
       let callCount = 0
       mockFetch.mockImplementation(async () => {
         callCount++
+        // Use 400 (not retried) instead of 500 (retried) to ensure failures
         if (callCount % 2 === 0) {
           return {
             ok: false,
-            status: 500,
-            json: () => Promise.resolve({ message: "Error" }),
+            status: 400,
+            json: () => Promise.resolve({ message: "Bad Request" }),
             headers: new Headers()
           } as Response
         }
@@ -397,7 +398,7 @@ describe("WavixClient", () => {
     })
   })
 
-  describeWithoutApiKey("Documentation Mode (no API key)", () => {
+  describeWithoutApiKey("Setup Mode (no API key)", () => {
     it("should throw error when making request without API key", async () => {
       client = new WavixClient()
 
