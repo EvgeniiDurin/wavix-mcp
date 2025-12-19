@@ -5,7 +5,8 @@
 import { createTextPrompt, type PromptHandlerMap } from "./types.js"
 
 export const sipHandlers: PromptHandlerMap = {
-  list_sip_trunks: () => createTextPrompt("List SIP trunks.\n\nUse sip_trunks tool with action \"list\". Show credentials and status."),
+  list_sip_trunks: () =>
+    createTextPrompt('List SIP trunks.\n\nUse sip_trunks tool with action "list". Show credentials and status.'),
 
   create_sip_trunk: args =>
     createTextPrompt(

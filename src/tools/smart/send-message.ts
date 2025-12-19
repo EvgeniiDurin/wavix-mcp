@@ -173,8 +173,8 @@ export async function handleSendMessage(
             {
               success: false,
               error: "Missing required parameters",
-              required: { 
-                to: "Recipient phone number", 
+              required: {
+                to: "Recipient phone number",
                 text: "Message text",
                 from: "Sender ID or phone number"
               },

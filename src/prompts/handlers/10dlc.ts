@@ -47,7 +47,7 @@ export const tenDlcHandlers: PromptHandlerMap = {
 
   list_10dlc_brands: () =>
     createTextPrompt(
-      "List all 10DLC brands on your account.\n\nUse 10dlc_brands tool with action \"list\". Show brand status, verification status, and registration date."
+      'List all 10DLC brands on your account.\n\nUse 10dlc_brands tool with action "list". Show brand status, verification status, and registration date.'
     ),
 
   list_10dlc_campaigns: args =>

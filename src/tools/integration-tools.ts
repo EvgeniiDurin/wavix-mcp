@@ -34,7 +34,8 @@ export const integrationTools: Array<Tool> = [
         },
         language: {
           type: "string",
-          description: "Programming language for the code example. OPTIONAL - try to detect from project context first (package.json → 'node', requirements.txt/Pipfile → 'python', or check open files). If cannot determine, use 'node' as default. If user explicitly requests a different language, use that.",
+          description:
+            "Programming language for the code example. OPTIONAL - try to detect from project context first (package.json → 'node', requirements.txt/Pipfile → 'python', or check open files). If cannot determine, use 'node' as default. If user explicitly requests a different language, use that.",
           enum: ["node", "curl", "python"]
         }
       },

@@ -1,5 +1,6 @@
-module.exports = require("@wavix/eslint-config-node/.prettierrc")
-
-
-
-
+module.exports = {
+  trailingComma: "none",
+  printWidth: 120,
+  semi: false,
+  arrowParens: "avoid"
+}

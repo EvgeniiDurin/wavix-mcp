@@ -126,9 +126,9 @@ describe("Resources Registration", () => {
     it("should throw error for non-existent resource", async () => {
       registerResources(mockServer as unknown as Server)
 
-      await expect(
-        readResourceHandler!({ params: { uri: "wavix://nonexistent/resource" } })
-      ).rejects.toThrow("Resource not found")
+      await expect(readResourceHandler!({ params: { uri: "wavix://nonexistent/resource" } })).rejects.toThrow(
+        "Resource not found"
+      )
     })
   })
 })
