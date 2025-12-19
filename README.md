@@ -100,20 +100,15 @@ claude mcp list
 
 36 tools organized by category:
 
-| Category | Tools | Examples |
+| Category | Count | Examples |
 |----------|-------|----------|
-| SMS and MMS | 9 | `sms_send`, `sms_list`, `sms_get` |
-| Call Control | 9 | `call_create`, `call_hangup`, `call_stream_start` |
-| Phone Numbers | 7 | `numbers_list`, `number_get`, `mydids_update` |
-| 2FA | 6 | `two_fa_verification_create`, `two_fa_verification_check_create` |
-| 10DLC | 28 | `tcr_brand_create`, `10dlc_brands_campaigns_create` |
-| CDRs & Recordings | 9 | `cdr_list`, `cdr_get`, `recordings_list` |
-| SIP Trunking | 5 | `sip_trunk_create`, `sip_trunk_get` |
-| Number Buying | 5 | `buy_countries_list`, `buy_numbers_available` |
-| Billing | 3 | `billing_transactions_list`, `billing_invoices_list` |
-| Other | 7 | Webhooks, Speech Analytics, Voice Campaigns, etc. |
+| API Tools | 22 | `sms`, `calls`, `numbers`, `10dlc_brands`, `sip_trunks`, `billing` |
+| Smart Tools | 3 | `wavix_assistant`, `quick_check`, `send_message` |
+| Integration | 3 | `integration_example`, `endpoint_info`, `list_endpoints` |
+| Troubleshooting | 5 | `troubleshoot`, `diagnose_error`, `explain` |
+| Workflow | 3 | `get_recipe`, `list_recipes`, `get_recipe_step` |
 
-> See [full API documentation](https://wavix.com/docs) for complete reference.
+> API tools are grouped by resource (e.g., `sms` tool handles send, list, get actions). See [full documentation](https://docs.wavix.com/) for details.
 
 ## Resources & Prompts
 
