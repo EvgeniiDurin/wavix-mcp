@@ -2,8 +2,8 @@
  * Troubleshooting Tools
  *
  * Provides diagnostic tools to help resolve issues:
- * - diagnose_error: Explains error codes and provides solutions
- * - check_prerequisites: Validates setup before using a feature
+ * - troubleshoot: Universal troubleshooting (error codes, SMS/call issues, 10DLC)
+ * - explain: Explains Wavix concepts and features
  */
 
 import type { Tool } from "@modelcontextprotocol/sdk/types.js"
@@ -510,11 +510,11 @@ export const featurePrerequisites: Record<
 export const troubleshootingTools: Array<Tool> = [
   {
     name: "troubleshoot",
-    description: `Universal troubleshooting tool for any Wavix issue. 
+    description: `Universal troubleshooting tool for any Wavix issue.
 
 Automatically diagnoses:
 - Error codes from failed API calls
-- SMS delivery problems  
+- SMS delivery problems
 - Call failures
 - 10DLC registration issues
 - Configuration problems
@@ -558,56 +558,6 @@ Returns:
     }
   },
   {
-    name: "diagnose_error",
-    description:
-      "Diagnose a Wavix API error code. Returns the error explanation, possible causes, solutions, and related tools to fix the issue. Use this when you encounter an error code in API responses.",
-    inputSchema: {
-      type: "object",
-      properties: {
-        error_code: {
-          type: "string",
-          description: "The error code to diagnose (e.g., '33', '5', '22')"
-        },
-        context: {
-          type: "string",
-          description: "Optional context about what you were trying to do",
-          enum: ["sms_send", "sms_receive", "call", "validation", "2fa", "other"]
-        }
-      },
-      required: ["error_code"]
-    }
-  },
-  {
-    name: "check_prerequisites",
-    description:
-      "Check what's required before using a Wavix feature. Returns a checklist of prerequisites with tools to verify each one. Use this before implementing SMS, 2FA, voice calls, etc.",
-    inputSchema: {
-      type: "object",
-      properties: {
-        feature: {
-          type: "string",
-          description: "The feature you want to use",
-          enum: ["sms_us", "sms_international", "two_fa", "voice_calls", "voice_ai", "call_recording"]
-        }
-      },
-      required: ["feature"]
-    }
-  },
-  {
-    name: "search_errors",
-    description: "Search for error information by keyword. Use when you have an error message but not the code.",
-    inputSchema: {
-      type: "object",
-      properties: {
-        query: {
-          type: "string",
-          description: "Search query (e.g., 'spam', '10DLC', 'blocked', 'carrier')"
-        }
-      },
-      required: ["query"]
-    }
-  },
-  {
     name: "explain",
     description: `Explain how something works in Wavix. Ask about any feature, error, or concept.
 
@@ -641,12 +591,6 @@ export function handleTroubleshootingTool(
   switch (toolName) {
     case "troubleshoot":
       return handleUnifiedTroubleshoot(args)
-    case "diagnose_error":
-      return handleDiagnoseError(args)
-    case "check_prerequisites":
-      return handleCheckPrerequisites(args)
-    case "search_errors":
-      return handleSearchErrors(args)
     case "explain":
       return handleExplain(args)
     default:
@@ -1064,61 +1008,7 @@ function getContextTips(error: (typeof errorDatabase)[string], context: string |
 }
 
 /**
- * Check prerequisites for a feature
- */
-function handleCheckPrerequisites(args: Record<string, unknown>): {
-  content: Array<{ type: "text"; text: string }>
-} {
-  const feature = args.feature as string
-
-  const prereqs = featurePrerequisites[feature]
-
-  if (!prereqs) {
-    return {
-      content: [
-        {
-          type: "text",
-          text: JSON.stringify(
-            {
-              error: `Unknown feature: ${feature}`,
-              available_features: Object.entries(featurePrerequisites).map(([k, v]) => ({
-                id: k,
-                name: v.name
-              }))
-            },
-            null,
-            2
-          )
-        }
-      ]
-    }
-  }
-
-  const response = {
-    feature: prereqs.name,
-    description: prereqs.description,
-    requirements: prereqs.requirements.map(req => ({
-      name: req.name,
-      description: req.description,
-      required: req.required,
-      how_to_check: req.checkTool ? `Use ${req.checkTool}.${req.checkAction}` : "Manual verification",
-      documentation: req.docsUri
-    })),
-    warnings: prereqs.warnings,
-    next_steps: [
-      "Check each requirement using the suggested tools",
-      "Complete missing requirements in order",
-      "Test with a small volume first"
-    ]
-  }
-
-  return {
-    content: [{ type: "text", text: JSON.stringify(response, null, 2) }]
-  }
-}
-
-/**
- * Search errors by keyword
+ * Search errors by keyword (internal helper for troubleshoot)
  */
 function handleSearchErrors(args: Record<string, unknown>): {
   content: Array<{ type: "text"; text: string }>
@@ -1164,5 +1054,5 @@ function handleSearchErrors(args: Record<string, unknown>): {
  * Check if tool is a troubleshooting tool
  */
 export function isTroubleshootingTool(name: string): boolean {
-  return ["troubleshoot", "diagnose_error", "check_prerequisites", "search_errors", "explain"].includes(name)
+  return ["troubleshoot", "explain"].includes(name)
 }

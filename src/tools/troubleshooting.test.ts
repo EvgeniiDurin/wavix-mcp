@@ -60,10 +60,8 @@ describe("Troubleshooting Tools", () => {
       const toolNames = troubleshootingTools.map(t => t.name)
 
       expect(toolNames).toContain("troubleshoot")
-      expect(toolNames).toContain("diagnose_error")
-      expect(toolNames).toContain("check_prerequisites")
-      expect(toolNames).toContain("search_errors")
       expect(toolNames).toContain("explain")
+      expect(toolNames).toHaveLength(2)
     })
 
     it("each tool should have valid schema", () => {
@@ -80,9 +78,6 @@ describe("Troubleshooting Tools", () => {
   describe("isTroubleshootingTool", () => {
     it("should return true for troubleshooting tools", () => {
       expect(isTroubleshootingTool("troubleshoot")).toBe(true)
-      expect(isTroubleshootingTool("diagnose_error")).toBe(true)
-      expect(isTroubleshootingTool("check_prerequisites")).toBe(true)
-      expect(isTroubleshootingTool("search_errors")).toBe(true)
       expect(isTroubleshootingTool("explain")).toBe(true)
     })
 
@@ -90,67 +85,13 @@ describe("Troubleshooting Tools", () => {
       expect(isTroubleshootingTool("sms")).toBe(false)
       expect(isTroubleshootingTool("profile")).toBe(false)
       expect(isTroubleshootingTool("unknown")).toBe(false)
+      expect(isTroubleshootingTool("diagnose_error")).toBe(false)
+      expect(isTroubleshootingTool("check_prerequisites")).toBe(false)
+      expect(isTroubleshootingTool("search_errors")).toBe(false)
     })
   })
 
   describe("handleTroubleshootingTool", () => {
-    describe("diagnose_error", () => {
-      it("should return error info for known error code", () => {
-        const result = handleTroubleshootingTool("diagnose_error", { error_code: "33" })
-        const data = JSON.parse(result.content[0].text)
-
-        expect(data.error_code).toBe("33")
-        expect(data.title).toBeTruthy()
-        expect(data.solutions).toBeDefined()
-        expect(data.possible_causes).toBeDefined()
-      })
-
-      it("should return not found for unknown error code", () => {
-        const result = handleTroubleshootingTool("diagnose_error", { error_code: "99999" })
-        const data = JSON.parse(result.content[0].text)
-
-        expect(data.found).toBe(false)
-        expect(data.suggestions).toBeDefined()
-      })
-    })
-
-    describe("check_prerequisites", () => {
-      it("should return prerequisites for valid feature", () => {
-        const result = handleTroubleshootingTool("check_prerequisites", { feature: "sms_us" })
-        const data = JSON.parse(result.content[0].text)
-
-        expect(data.feature).toBeTruthy()
-        expect(data.description).toBeTruthy()
-        expect(data.requirements).toBeDefined()
-        expect(data.requirements.length).toBeGreaterThan(0)
-      })
-
-      it("should return error for unknown feature", () => {
-        const result = handleTroubleshootingTool("check_prerequisites", { feature: "unknown" })
-        const data = JSON.parse(result.content[0].text)
-
-        expect(data.error).toBeTruthy()
-        expect(data.available_features).toBeDefined()
-      })
-    })
-
-    describe("search_errors", () => {
-      it("should find errors by keyword", () => {
-        const result = handleTroubleshootingTool("search_errors", { query: "spam" })
-        const data = JSON.parse(result.content[0].text)
-
-        expect(data.query).toBe("spam")
-        expect(data.database_matches).toBeDefined()
-      })
-
-      it("should return empty results for no matches", () => {
-        const result = handleTroubleshootingTool("search_errors", { query: "xyznonexistent" })
-        const data = JSON.parse(result.content[0].text)
-
-        expect(data.database_matches).toHaveLength(0)
-      })
-    })
-
     describe("explain", () => {
       it("should explain known topics", () => {
         const result = handleTroubleshootingTool("explain", { topic: "10DLC" })
@@ -183,6 +124,20 @@ describe("Troubleshooting Tools", () => {
         const data = JSON.parse(result.content[0].text)
 
         expect(data.detected_category).toBe("sms")
+      })
+
+      it("should detect 10DLC category from description", () => {
+        const result = handleTroubleshootingTool("troubleshoot", { description: "10DLC campaign issue" })
+        const data = JSON.parse(result.content[0].text)
+
+        expect(data.detected_category).toBe("10dlc")
+      })
+
+      it("should detect call category from description", () => {
+        const result = handleTroubleshootingTool("troubleshoot", { description: "call failed" })
+        const data = JSON.parse(result.content[0].text)
+
+        expect(data.detected_category).toBe("call")
       })
     })
   })

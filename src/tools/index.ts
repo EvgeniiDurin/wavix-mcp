@@ -19,9 +19,7 @@ import {
   isAssistantTool,
   handleAssistant,
   isQuickCheckTool,
-  handleQuickCheck,
-  isSendMessageTool,
-  handleSendMessage
+  handleQuickCheck
 } from "./smart/index.js"
 
 export function registerTools(server: Server, client: WavixClient): void {
@@ -56,11 +54,6 @@ export function registerTools(server: Server, client: WavixClient): void {
     if (isQuickCheckTool(name)) {
       log.debug("Handling quick check tool", { name })
       return handleQuickCheck(client, args as Record<string, unknown>)
-    }
-
-    if (isSendMessageTool(name)) {
-      log.debug("Handling send message tool", { name })
-      return handleSendMessage(client, args as Record<string, unknown>)
     }
 
     if (isIntegrationTool(name)) {

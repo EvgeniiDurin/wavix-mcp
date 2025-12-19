@@ -139,7 +139,8 @@ describe("Tools Registry", () => {
       const toolNames = result.tools.map(t => t.name)
       expect(toolNames).toContain("wavix_assistant")
       expect(toolNames).toContain("quick_check")
-      expect(toolNames).toContain("send_message")
+      // send_message was removed - users integrate API, not send via AI
+      expect(toolNames).not.toContain("send_message")
     })
 
     it("should return clear error message when calling tool without API key", async () => {
