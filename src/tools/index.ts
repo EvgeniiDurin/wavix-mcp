@@ -14,13 +14,7 @@ import { handleToolCall } from "./handlers/index.js"
 import { integrationTools, handleIntegrationTool, isIntegrationTool } from "./integration-tools.js"
 import { troubleshootingTools, handleTroubleshootingTool, isTroubleshootingTool } from "./troubleshooting.js"
 import { workflowTools, handleWorkflowTool, isWorkflowTool } from "./workflow-recipes.js"
-import {
-  smartTools,
-  isAssistantTool,
-  handleAssistant,
-  isQuickCheckTool,
-  handleQuickCheck
-} from "./smart/index.js"
+import { smartTools, isAssistantTool, handleAssistant, isQuickCheckTool, handleQuickCheck } from "./smart/index.js"
 
 export function registerTools(server: Server, client: WavixClient): void {
   const log = logger.child({ module: "tools" })

@@ -6,7 +6,7 @@
  * to work at runtime after TypeScript compilation.
  */
 
-import moduleAlias from "module-alias"
+import { addAliases } from "module-alias"
 import { fileURLToPath } from "url"
 import { dirname, join } from "path"
 
@@ -17,7 +17,7 @@ const __dirname = dirname(__filename)
 const isBuilt = __dirname.includes("/build")
 const baseDir = isBuilt ? __dirname : join(__dirname)
 
-moduleAlias.addAliases({
+addAliases({
   "@root": baseDir,
   "@config": join(baseDir, "config"),
   "@interfaces": join(baseDir, "interfaces"),

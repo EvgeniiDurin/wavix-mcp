@@ -11,6 +11,3 @@ import { assistantTool } from "./assistant.js"
 import { quickCheckTool } from "./quick-check.js"
 
 export const smartTools = [assistantTool, quickCheckTool]
-
-
-

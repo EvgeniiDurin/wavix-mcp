@@ -10,6 +10,3 @@ export const validationHandlers: PromptHandlerMap = {
       `Validate number ${args?.phone_number}.\n\nUse validation_list tool with type "validation". Show number type, carrier, and reachability status.`
     )
 }
-
-
-
