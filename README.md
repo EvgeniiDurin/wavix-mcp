@@ -59,10 +59,23 @@ claude mcp list
 
 #### Cursor IDE
 
-1. Open Settings (`Cmd+,` / `Ctrl+,`) → **Tools & MCP**
-2. Click **Add new MCP server**
-3. Configure: Name: `wavix`, Command: `node`, Args: `/path/to/mcp-wavix/mcp-server/build/index.js`
-4. Add environment: `WAVIX_API_KEY=wvx_live_your_api_key_here`
+1. Open Cursor Settings (`Cmd+Shift+J` on macOS / `Ctrl+Shift+J` on Windows/Linux) → **Tools & MCP**
+2. Click **Add new MCP server** (opens JSON editor)
+3. Add this configuration:
+
+```json
+{
+  "mcpServers": {
+    "wavix": {
+      "command": "node",
+      "args": ["/path/to/mcp-wavix/mcp-server/build/index.js"],
+      "env": {
+        "WAVIX_API_KEY": "wvx_live_your_api_key_here"
+      }
+    }
+  }
+}
+```
 
 > **No API key?** Remove the `env` block to use Setup Mode (documentation and code generation only).
 
