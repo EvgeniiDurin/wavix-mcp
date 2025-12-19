@@ -1,8 +1,8 @@
 # @wavix/mcp-server
 
-![npm version](https://img.shields.io/npm/v/@wavix/mcp-server)
-![license](https://img.shields.io/npm/l/@wavix/mcp-server)
-![node version](https://img.shields.io/node/v/@wavix/mcp-server)
+![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
+![Node.js](https://img.shields.io/badge/Node.js-20%2B-brightgreen)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue)
 
 MCP (Model Context Protocol) server for Wavix Telecom API. Provides AI assistants (Claude, GPT, Gemini) with access to SMS, calls, phone numbers, 2FA, analytics, and comprehensive documentation.
 
