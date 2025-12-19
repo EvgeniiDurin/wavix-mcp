@@ -20,7 +20,7 @@ MCP (Model Context Protocol) server for Wavix Telecom API. Provides AI assistant
 
 ```bash
 git clone https://github.com/EvgeniiDurin/wavix-mcp.git
-cd wavix-mcp/mcp-server
+cd wavix-mcp
 npm install && npm run build
 ```
 
@@ -35,7 +35,7 @@ Add to config (`~/Library/Application Support/Claude/claude_desktop_config.json`
   "mcpServers": {
     "wavix": {
       "command": "node",
-      "args": ["/path/to/wavix-mcp/mcp-server/build/index.js"],
+      "args": ["/path/to/wavix-mcp/build/index.js"],
       "env": {
         "WAVIX_API_KEY": "wvx_live_your_api_key_here"
       }
@@ -48,10 +48,10 @@ Add to config (`~/Library/Application Support/Claude/claude_desktop_config.json`
 
 ```bash
 # With API key (Full Mode)
-claude mcp add wavix -s user -e WAVIX_API_KEY=wvx_live_your_api_key_here -- node /path/to/wavix-mcp/mcp-server/build/index.js
+claude mcp add wavix -s user -e WAVIX_API_KEY=wvx_live_your_api_key_here -- node /path/to/wavix-mcp/build/index.js
 
 # Without API key (Setup Mode)
-claude mcp add wavix -s user -- node /path/to/wavix-mcp/mcp-server/build/index.js
+claude mcp add wavix -s user -- node /path/to/wavix-mcp/build/index.js
 
 # Verify
 claude mcp list
@@ -68,7 +68,7 @@ claude mcp list
   "mcpServers": {
     "wavix": {
       "command": "node",
-      "args": ["/path/to/wavix-mcp/mcp-server/build/index.js"],
+      "args": ["/path/to/wavix-mcp/build/index.js"],
       "env": {
         "WAVIX_API_KEY": "wvx_live_your_api_key_here"
       }
@@ -147,7 +147,7 @@ AI: [Uses quick_check tool] → Shows 10DLC registration status and next steps
 **MCP server not detected:**
 ```bash
 claude mcp list                    # Check if added
-claude mcp add wavix -s user -- node /path/to/build/index.js  # Re-add
+claude mcp add wavix -s user -- node /path/to/wavix-mcp/build/index.js  # Re-add
 ```
 
 **Server not starting:**
