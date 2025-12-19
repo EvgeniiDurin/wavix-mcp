@@ -19,8 +19,8 @@ MCP (Model Context Protocol) server for Wavix Telecom API. Provides AI assistant
 ### 1. Install
 
 ```bash
-git clone https://github.com/evgeniidurin-ai/mcp-wavix.git
-cd mcp-wavix/mcp-server
+git clone https://github.com/EvgeniiDurin/wavix-mcp.git
+cd wavix-mcp/mcp-server
 npm install && npm run build
 ```
 
@@ -35,7 +35,7 @@ Add to config (`~/Library/Application Support/Claude/claude_desktop_config.json`
   "mcpServers": {
     "wavix": {
       "command": "node",
-      "args": ["/path/to/mcp-wavix/mcp-server/build/index.js"],
+      "args": ["/path/to/wavix-mcp/mcp-server/build/index.js"],
       "env": {
         "WAVIX_API_KEY": "wvx_live_your_api_key_here"
       }
@@ -48,10 +48,10 @@ Add to config (`~/Library/Application Support/Claude/claude_desktop_config.json`
 
 ```bash
 # With API key (Full Mode)
-claude mcp add wavix -s user -e WAVIX_API_KEY=wvx_live_your_api_key_here -- node /path/to/mcp-wavix/mcp-server/build/index.js
+claude mcp add wavix -s user -e WAVIX_API_KEY=wvx_live_your_api_key_here -- node /path/to/wavix-mcp/mcp-server/build/index.js
 
 # Without API key (Setup Mode)
-claude mcp add wavix -s user -- node /path/to/mcp-wavix/mcp-server/build/index.js
+claude mcp add wavix -s user -- node /path/to/wavix-mcp/mcp-server/build/index.js
 
 # Verify
 claude mcp list
@@ -68,7 +68,7 @@ claude mcp list
   "mcpServers": {
     "wavix": {
       "command": "node",
-      "args": ["/path/to/mcp-wavix/mcp-server/build/index.js"],
+      "args": ["/path/to/wavix-mcp/mcp-server/build/index.js"],
       "env": {
         "WAVIX_API_KEY": "wvx_live_your_api_key_here"
       }
@@ -156,7 +156,7 @@ claude mcp add wavix -s user -- node /path/to/build/index.js  # Re-add
 
 ## Links
 
-- [GitHub Repository](https://github.com/evgeniidurin-ai/mcp-wavix)
+- [GitHub Repository](https://github.com/EvgeniiDurin/wavix-mcp)
 - [Wavix API Documentation](https://docs.wavix.com/)
 - [Get API Key](https://wavix.com/api-keys)
 
